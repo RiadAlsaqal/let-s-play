@@ -1,11 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-
+import { X } from "./src/screens/manager/screens";
 export default function Index() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <X /> <StatusBar style="auto" />
     </View>
   );
 }

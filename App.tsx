@@ -1,7 +1,8 @@
+import React from "react";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import { NativeBaseProvider } from "native-base";
-
+import { Provider as PaperProvider } from "react-native-paper";
 import Index from "./index";
+
 const client = new ApolloClient({
   uri: "https://api-dev.application.com",
   cache: new InMemoryCache(),
@@ -10,9 +11,9 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <NativeBaseProvider>
+      <PaperProvider>
         <Index />
-      </NativeBaseProvider>
+      </PaperProvider>
     </ApolloProvider>
   );
 }

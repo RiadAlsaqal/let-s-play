@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   TextInput,
@@ -16,10 +16,14 @@ import {
   TDatePickerProps,
   TTextFiledProps,
 } from "./types";
+import { MapView } from "../index";
 const ErrorMessage = ({ meta, theme }: TErrorMessage) => (
   <>
     {meta.touched && meta.error && (
-      <Text variant="labelMedium" style={{ color: theme.colors.error }}>
+      <Text
+        variant="labelMedium"
+        style={{ color: theme.colors.error, textAlign: "center" }}
+      >
         {meta.error}
       </Text>
     )}
@@ -30,21 +34,23 @@ const ElementFactory = <T extends TElements>({
   elementProps,
   type,
 }: TElementFactory<T>) => {
-  const element = {
+  const handleChangeLocation = (location: TLocation) => {
+    FieldProps.form.setFieldValue(FieldProps.field.name, location);
+  };
+  const element: Record<TElements, React.ReactElement> = {
     TextField: (
       <TextInput
         onChangeText={FieldProps.form.handleChange(FieldProps.field.name)}
         onKeyPress={FieldProps.form.handleBlur(FieldProps.field.name)}
         value={FieldProps.field.value}
-        {...elementProps}
+        {...(elementProps as TTextFiledProps)}
         style={style.TextInput}
       />
     ),
     SubmitButton: (
       <Button
-        onPress={() => {
-          console.log("hi");
-        }}
+        onPress={() => FieldProps.form.handleSubmit()}
+        {...(elementProps as TSubmitButtonProps)}
       >
         {(elementProps as TSubmitButtonProps)?.label}
       </Button>
@@ -52,8 +58,9 @@ const ElementFactory = <T extends TElements>({
     DatePicker: (
       <DatePicker elementProps={elementProps} FieldProps={FieldProps} />
     ),
+    MapView: <MapView setLocation={handleChangeLocation} />,
   };
-  return <View>{element[type as TElements]}</View>;
+  return <>{element[type as TElements]}</>;
 };
 export const FormElementFactory = <T extends TElements>(
   props: TFormElementFactory<T>
@@ -94,4 +101,11 @@ type TFormElementFactory<T extends TElements> = {
   name: string;
   type: T;
   elementProps?: getElementType<T>;
+};
+
+type TLocation = {
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
 };

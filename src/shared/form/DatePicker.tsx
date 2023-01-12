@@ -1,5 +1,5 @@
 import React, { MutableRefObject, useState } from "react";
-import { View, TouchableHighlight } from "react-native";
+import { View, StyleSheet } from "react-native";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -14,6 +14,7 @@ export const DatePicker = <T extends TElements>({
   const [open, setOpen] = useState(false);
   const onChange = (event: DateTimePickerEvent, date?: Date) => {
     handleClose();
+    form.setFieldTouched(field.name);
     form.setFieldValue(field.name, date);
   };
 
@@ -25,8 +26,8 @@ export const DatePicker = <T extends TElements>({
   };
 
   return (
-    <View>
-      <Text>Birthday </Text>
+    <View style={style.View} {...elementProps}>
+      <Text> birthday:</Text>
       <Button onPress={handleOpen}>
         {moment(field.value).format("DD/MM/YYYY")}
       </Button>
@@ -36,6 +37,14 @@ export const DatePicker = <T extends TElements>({
     </View>
   );
 };
+
+const style = StyleSheet.create({
+  View: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 type TDatePicker<T> = {
   //   reff: React.MutableRefObject<

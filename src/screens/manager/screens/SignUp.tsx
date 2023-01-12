@@ -1,51 +1,105 @@
-import { ErrorMessage } from "formik";
-import moment from "moment";
-import { useEffect } from "react";
-import { View, StyleSheet, Text } from "react-native";
-import * as Yup from "yup";
+import { View, StyleSheet, Text, Pressable } from "react-native";
+import { useMutation, gql } from "@apollo/client";
 import {
   withFormikForm,
   TFormikProps,
   FormElementFactory,
 } from "./../../../../src/shared/form";
-const schema = Yup.object().shape({
-  firstName: Yup.string()
-    .required()
-    .matches(/^([^0-9]*)$/, "first name must be string")
-    .max(10),
-  lastName: Yup.string()
-    .required()
-    .matches(/^([^0-9]*)$/, "last name must be string")
-    .max(10),
-});
-export const SignUp: React.FC<TSingUpForm> = () => {
-  const Form = withFormikForm<{}, {}>({
+import { SignupValidationSchema } from "./utils/SignupValidationSchema";
+import { useEffect } from "react";
+
+const SIGNUP_MUTATION = gql`
+  mutation myMutation(
+    $lat: String!
+    $lon: String!
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $phone: Int!
+    $password: String!
+  ) {
+    SignUpPlyer(
+      playerData: {
+        user: {
+          firstName: $firstName
+          lastName: $lastName
+          email: $email
+          phone: $phone
+          password: $password
+        }
+        locationLat: $lat
+        locationLong: $lon
+      }
+    ) {
+      data {
+        userId {
+          username
+        }
+        locationLat
+        locationLong
+        id
+      }
+      message
+      status
+    }
+  }
+`;
+
+export const SignUp: React.FC<TSingUpForm> = ({}) => {
+  const [myMutat, { data, loading, error }] = useMutation(SIGNUP_MUTATION);
+  useEffect(() => {
+    console.log("data", data, loading, error);
+  }, [data, loading, error]);
+  const Form = withFormikForm<{}, TValues>({
     children: (props) => {
+      console.log(props);
+
       return (
         <View style={style.form}>
-          <FormElementFactory<"TextField">
+          <FormElementFactory
             elementProps={{
-              placeholder: "first name",
+              placeholder: "first Name",
             }}
             type="TextField"
             name="firstName"
             {...props}
           />
-          <FormElementFactory<"TextField">
+          <FormElementFactory
             elementProps={{
-              placeholder: "last Name",
+              placeholder: "last name",
             }}
             type="TextField"
             name="lastName"
             {...props}
           />
-
-          <FormElementFactory<"DatePicker">
-            type="DatePicker"
-            name="DatePicker"
+          <FormElementFactory
+            elementProps={{
+              placeholder: "email",
+            }}
+            type="TextField"
+            name="email"
             {...props}
           />
-          <FormElementFactory<"SubmitButton">
+          <FormElementFactory
+            elementProps={{
+              placeholder: "password",
+            }}
+            type="TextField"
+            name="password"
+            {...props}
+          />
+          <FormElementFactory
+            elementProps={{
+              placeholder: "password",
+            }}
+            type="TextField"
+            name="phone"
+            {...props}
+          />
+          <FormElementFactory type="DatePicker" name="DatePicker" {...props} />
+          <FormElementFactory type="MapView" name="MapView" {...props} />
+
+          <FormElementFactory
             elementProps={{
               label: "click",
             }}
@@ -56,11 +110,37 @@ export const SignUp: React.FC<TSingUpForm> = () => {
         </View>
       );
     },
-    handleSubmit: () => console.log("asd"),
-    validationSchema: schema,
-    mapPropsToValues: (props: any) => ({
+    handleSubmit: ({
+      DatePicker,
+      MapView,
+      email,
+      firstName,
+      lastName,
+      password,
+      phone,
+    }) => {
+      console.log();
+      myMutat({
+        variables: {
+          lat: MapView?.latitude,
+          lon: MapView?.longitude,
+          firstName,
+          lastName,
+          email,
+          phone: 4544,
+          password,
+        },
+      });
+    },
+    validationSchema: SignupValidationSchema,
+    mapPropsToValues: (props) => ({
+      firstName: "asdsad",
+      lastName: "adasdad",
+      email: "asdsa@sad.sad",
       DatePicker: new Date(),
-      firstName: "riad",
+      MapView: undefined,
+      password: "asdsadad",
+      phone: "asdad",
     }),
   });
   return <Form />;
@@ -69,18 +149,42 @@ export const SignUp: React.FC<TSingUpForm> = () => {
 const style = StyleSheet.create({
   form: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
 
 type TSingUpForm = TValues & Partial<TFormikProps<TValues>>;
 
 type TValues = {
-  myValues: {
-    firstName: string;
-    lastName: string;
-    userName: string;
-    email: string;
-  };
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  DatePicker: Date;
+  MapView: TLocation | undefined;
+  phone: string;
 };
+
+type TLocation = {
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
+};
+
+export const Home = ({ route, navigation }: any) => (
+  <View>
+    <Pressable onPress={() => navigation.navigate("SignUp")}>
+      <Text>hi</Text>
+    </Pressable>
+  </View>
+);
+
+const styles1 = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  map: {
+    height: "50%",
+    width: "100%",
+  },
+});

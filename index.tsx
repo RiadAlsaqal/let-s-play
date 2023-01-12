@@ -1,28 +1,26 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { SignUp } from "./src/screens/manager/screens";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Navigator } from "./src/navigation";
 export default function Index() {
   return (
-    <View style={styles.container}>
-      <SignUp
-        myValues={{
-          email: "asd",
-          firstName: "asdd",
-          lastName: "wqe",
-          userName: "jjj",
-        }}
-      />
+    <>
       <StatusBar style="auto" />
-    </View>
+      <SafeAreaView style={styles.container}>
+        <Text>asd</Text>
+      </SafeAreaView>
+      <Navigator />
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: "100%",
+    height: "5%",
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 10,
   },
 });

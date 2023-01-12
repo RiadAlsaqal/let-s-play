@@ -7,7 +7,7 @@ export default function Index() {
     <>
       <StatusBar style="auto" />
       <SafeAreaView style={styles.container}>
-        <Text>asd</Text>
+        <Text>aaa</Text>
       </SafeAreaView>
       <Navigator />
     </>

@@ -19,7 +19,7 @@ export type TTextFiledProps = {} & Partial<TextInputProps>;
 export type TSubmitButtonProps = {
   onSubmit?: () => void;
   label: string;
-};
+} & Partial<ButtonProps>;
 
 export type TDatePickerProps = {} & (
   | IOSNativeProps

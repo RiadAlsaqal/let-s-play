@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
 import { StyleSheet, View, Button as B1 } from "react-native";
 import { Button, Text, Dialog, Portal, useTheme } from "react-native-paper";
-import { useMyLocation } from "./hooks";
+import { useMyLocation } from "../hooks";
 import Icon from "react-native-vector-icons/FontAwesome5";
 export const Map: React.FC<TMapView> = ({ setLocation }) => {
   const [open, setOpen] = useState(false);

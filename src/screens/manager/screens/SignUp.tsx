@@ -58,7 +58,7 @@ export const SignUp: React.FC<TSingUpForm> = ({}) => {
         <View style={style.form}>
           <FormElementFactory
             elementProps={{
-              placeholder: "first Name",
+              label: "first Name",
             }}
             type="TextField"
             name="firstName"
@@ -134,9 +134,9 @@ export const SignUp: React.FC<TSingUpForm> = ({}) => {
     },
     validationSchema: SignupValidationSchema,
     mapPropsToValues: (props) => ({
-      firstName: "asdsad",
-      lastName: "adasdad",
-      email: "asdsa@sad.sad",
+      firstName: "",
+      lastName: "",
+      email: "",
       DatePicker: new Date(),
       MapView: undefined,
       password: "asdsadad",
@@ -149,6 +149,8 @@ export const SignUp: React.FC<TSingUpForm> = ({}) => {
 const style = StyleSheet.create({
   form: {
     flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

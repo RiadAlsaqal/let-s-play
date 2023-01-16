@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import {
-  TextInput,
-  Text,
-  useTheme,
-  MD3Theme,
-  Button,
-} from "react-native-paper";
+import { Text, useTheme, MD3Theme } from "react-native-paper";
 import { Field, FieldMetaProps, FieldProps, FormikHandlers } from "formik";
 import { DatePicker } from "./index";
 import {
@@ -16,7 +10,7 @@ import {
   TDatePickerProps,
   TTextFiledProps,
 } from "./types";
-import { MapView } from "../index";
+import { MapView, Button, TextInput } from "../components";
 const ErrorMessage = ({ meta, theme }: TErrorMessage) => (
   <>
     {meta.touched && meta.error && (
@@ -44,7 +38,6 @@ const ElementFactory = <T extends TElements>({
         onKeyPress={FieldProps.form.handleBlur(FieldProps.field.name)}
         value={FieldProps.field.value}
         {...(elementProps as TTextFiledProps)}
-        style={style.TextInput}
       />
     ),
     SubmitButton: (
@@ -81,9 +74,6 @@ export const FormElementFactory = <T extends TElements>(
   );
 };
 const style = StyleSheet.create({
-  TextInput: {
-    minWidth: "70%",
-  },
   view: {
     padding: 10,
   },

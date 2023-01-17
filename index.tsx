@@ -2,6 +2,27 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Navigator } from "./src/navigation";
+import { SearchField } from "./src/shared/components";
+import { gql } from "@apollo/client";
+const QUERY = gql`
+  query searchPlayer($playerName: String!) {
+    serchPlayer {
+      data(playerName: $playerName, withoutFriend: true) {
+        edges {
+          node {
+            userId {
+              firstName
+              lastName
+              pk
+            }
+          }
+        }
+      }
+      message
+      status
+    }
+  }
+`;
 export default function Index() {
   return (
     <>
@@ -9,7 +30,15 @@ export default function Index() {
       <SafeAreaView style={styles.container}>
         <Text>aaa</Text>
       </SafeAreaView>
-      <Navigator />
+      <SearchField
+        query={QUERY}
+        options={{
+          variables: {
+            player,
+          },
+        }}
+      />
+      {/* <Navigator /> */}
     </>
   );
 }

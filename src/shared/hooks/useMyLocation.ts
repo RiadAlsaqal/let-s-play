@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useMemo } from "react";
+import React from "react";
 import {
   useBackgroundPermissions,
   getCurrentPositionAsync,

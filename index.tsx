@@ -32,11 +32,7 @@ export default function Index() {
       </SafeAreaView>
       <SearchField
         query={QUERY}
-        options={{
-          variables: {
-            player,
-          },
-        }}
+        
       />
       {/* <Navigator /> */}
     </>

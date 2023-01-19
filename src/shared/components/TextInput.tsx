@@ -1,6 +1,8 @@
 import React from "react";
-import { TextInput, TextInputProps, useTheme } from "react-native-paper";
-export const MyTextInput: React.FC<Omit<TextInputProps, "theme">> = (props) => {
-  const theme = useTheme();
-  return <TextInput mode="outlined" {...props} theme={theme} label="asd" />;
+import { TextInput, TextInputProps } from "react-native-paper";
+import { withTheme } from "../HOC";
+const TextInputNoTheme: React.FC<TextInputProps> = (props) => {
+  return <TextInput mode="outlined" {...props} label="asd" />;
 };
+
+export const MyTextInput = withTheme(TextInputNoTheme);

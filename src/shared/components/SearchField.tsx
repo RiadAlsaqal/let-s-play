@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
 import { Searchbar, SearchbarProps, Text, useTheme } from "react-native-paper";
 import { withTheme } from "../HOC";
@@ -11,29 +11,32 @@ import {
 } from "@apollo/client";
 const Search = (props: Omit<SearchbarProps, "value"> & { query: TQuery }) => {
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [data, setData] = React.useState("");
-  const [] = useLazyQuery(props.query);
-  const debouncer = useDebouncer();
+  const [Search, { called, data, loading }] = useLazyQuery(props.query);
+  const [data1, setData1] = useState();
   const onChangeSearch = (query: string) => {
-    setData(query);
+    setData1(query);
   };
+  const { handleDebounce } = useDebouncer({
+    callback: onChangeSearch,
+    time: 2000,
+  });
+
   return (
     <>
       <Searchbar
         placeholder="Search"
         onChangeText={(e) => {
           setSearchQuery(e);
-          debouncer(onChangeSearch, 2000)(e);
+          handleDebounce(e);
         }}
         {...props}
         value={searchQuery}
         theme={props.theme}
       />
-      {data && (
-        <View style={{ backgroundColor: "yellow", width: "100%" }}>
-          <Text>{data}</Text>
-        </View>
-      )}
+
+      <View style={{ backgroundColor: "yellow", width: "100%" }}>
+        <Text>{data1}</Text>
+      </View>
     </>
   );
 };

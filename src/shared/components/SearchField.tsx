@@ -12,7 +12,7 @@ import {
 const Search = (props: Omit<SearchbarProps, "value"> & { query: TQuery }) => {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [Search, { called, data, loading }] = useLazyQuery(props.query);
-  const [data1, setData1] = useState();
+  const [data1, setData1] = useState("");
   const onChangeSearch = (query: string) => {
     setData1(query);
   };

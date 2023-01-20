@@ -1,5 +1,5 @@
 import React from "react";
-import { MD3Theme, useTheme } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 
 export function withTheme<T>(WrappedComponent: React.ComponentType<T>) {
   return (props: Omit<T, "theme">) => {

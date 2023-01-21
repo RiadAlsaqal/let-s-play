@@ -30,10 +30,17 @@ export default function Index() {
       <SafeAreaView style={styles.container}>
         <Text>aaa</Text>
       </SafeAreaView>
-      <SearchField
-        query={QUERY}
-        
-      />
+      <SearchField<"them", "aaa", { a: string }>
+        query={{
+          query: QUERY,
+          queryOptions: { variables: { playerName: "Ln4" } },
+        }}
+        value=""
+      >
+        {({ node }) => {
+          return <>{}</>;
+        }}
+      </SearchField>
       {/* <Navigator /> */}
     </>
   );
@@ -49,3 +56,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
+
+type TChildren<p2 extends string, T extends Object> = (props: {
+  node: {
+    [key in p2]: T;
+  };
+}) => React.ReactElement;

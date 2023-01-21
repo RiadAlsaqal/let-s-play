@@ -12,7 +12,7 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Index from "./index";
-import { SignUp } from "./src/screens/manager/screens";
+import { SignUp } from "./src/screens/player/screens";
 import { Navigator } from "./src/navigation";
 import { colors } from "./src/theme.json";
 import { setContext } from "@apollo/client/link/context";

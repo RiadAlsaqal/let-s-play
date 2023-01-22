@@ -38,7 +38,7 @@ export default function Index() {
         value=""
       >
         {({ node }) => {
-          return <>{}</>;
+          return <>{a}</>;
         }}
       </SearchField>
       {/* <Navigator /> */}

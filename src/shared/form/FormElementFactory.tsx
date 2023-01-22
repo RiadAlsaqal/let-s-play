@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewProps } from "react-native";
 import { Text, useTheme, MD3Theme } from "react-native-paper";
 import { Field, FieldMetaProps, FieldProps, FormikHandlers } from "formik";
 import { DatePicker } from "./index";
@@ -64,7 +64,7 @@ export const FormElementFactory = <T extends TElements>(
     <Field name={props.name}>
       {(FieldProps: FieldProps) => {
         return (
-          <View style={style.view}>
+          <View style={style.view} {...props.containerProps}>
             <ElementFactory<T> FieldProps={FieldProps} {...props} />
             <ErrorMessage meta={FieldProps.meta} theme={theme} />
           </View>
@@ -91,6 +91,7 @@ type TFormElementFactory<T extends TElements> = {
   name: string;
   type: T;
   elementProps?: getElementType<T>;
+  containerProps?: ViewProps;
 };
 
 type TLocation = {

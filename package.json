@@ -15,7 +15,7 @@
     "@react-navigation/native": "^6.1.1",
     "@react-navigation/native-stack": "^6.9.7",
     "dotenv": "^16.0.3",
-    "expo": "~47.0.8",
+    "expo": "^47.0.13",
     "expo-location": "~15.0.1",
     "expo-status-bar": "~1.4.2",
     "formik": "^2.2.9",

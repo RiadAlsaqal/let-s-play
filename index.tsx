@@ -1,28 +1,7 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { Navigator } from "./src/navigation";
-import { SearchField } from "./src/shared/components";
-import { gql } from "@apollo/client";
-const QUERY = gql`
-  query searchPlayer($playerName: String!) {
-    serchPlayer {
-      data(playerName: $playerName, withoutFriend: true) {
-        edges {
-          node {
-            userId {
-              firstName
-              lastName
-              pk
-            }
-          }
-        }
-      }
-      message
-      status
-    }
-  }
-`;
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView, StyleSheet, Text } from "react-native";
+import { ScreenSignUp } from "./src/screens/player/screens/SignUp";
 export default function Index() {
   return (
     <>
@@ -30,17 +9,7 @@ export default function Index() {
       <SafeAreaView style={styles.container}>
         <Text>aaa</Text>
       </SafeAreaView>
-      <SearchField<"them", "aaa", { a: string }>
-        query={{
-          query: QUERY,
-          queryOptions: { variables: { playerName: "Ln4" } },
-        }}
-        value=""
-      >
-        {({ node }) => {
-          return <>{a}</>;
-        }}
-      </SearchField>
+      <ScreenSignUp />
       {/* <Navigator /> */}
     </>
   );
@@ -56,9 +25,3 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-
-type TChildren<p2 extends string, T extends Object> = (props: {
-  node: {
-    [key in p2]: T;
-  };
-}) => React.ReactElement;

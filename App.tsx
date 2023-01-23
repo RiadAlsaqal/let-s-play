@@ -14,7 +14,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Index from "./index";
 import { colors } from "./src/theme.json";
 import { setContext } from "@apollo/client/link/context";
-
+import { AuthProvider } from "./src/shared/Auth";
 const Stack = createNativeStackNavigator();
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -42,12 +42,14 @@ const theme = {
 
 export default function App() {
   return (
-    <ApolloProvider client={client}>
-      <PaperProvider theme={theme}>
-        <NavigationContainer>
-          <Index />
-        </NavigationContainer>
-      </PaperProvider>
-    </ApolloProvider>
+    <PaperProvider theme={theme}>
+      <AuthProvider>
+        <ApolloProvider client={client}>
+          <NavigationContainer>
+            <Index />
+          </NavigationContainer>
+        </ApolloProvider>
+      </AuthProvider>
+    </PaperProvider>
   );
 }

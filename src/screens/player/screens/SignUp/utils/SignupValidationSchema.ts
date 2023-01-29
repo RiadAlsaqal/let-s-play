@@ -15,6 +15,7 @@ export const SignupValidationSchema = Yup.object().shape({
     "you should be younger then 14 years old"
   ),
   email: Yup.string().email().required("email is required"),
+  password: Yup.string().required("password is requird"),
   MapView: Yup.object()
     .shape({
       latitude: Yup.string(),
@@ -25,8 +26,6 @@ export const SignupValidationSchema = Yup.object().shape({
     .test({
       message: "location is required",
       test: ({ longitude }) => {
-        console.log({ longitude });
-        console.log(typeof longitude === "number", "ty[");
         return typeof longitude === "number";
       },
     }),

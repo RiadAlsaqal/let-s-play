@@ -1,16 +1,13 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, StyleSheet, Text } from "react-native";
-import { ScreenSignUp } from "./src/screens/player/screens/SignUp";
+import { StyleSheet } from "react-native";
+import { Navigator } from "./src/navigation";
 export default function Index() {
   return (
     <>
       <StatusBar style="auto" />
-      <SafeAreaView style={styles.container}>
-        <Text>aaa</Text>
-      </SafeAreaView>
-      <ScreenSignUp />
-      {/* <Navigator /> */}
+
+      <Navigator />
     </>
   );
 }

@@ -13,7 +13,6 @@ export const Map: React.FC<TMapView> = ({ setLocation }) => {
   const [chosenLocation, setChosenLocation] = useState<TLocation>();
   const goToMyLocation = (location: TLocation) => {
     setTimeout(() => ref1.current.animateToRegion(location, 3 * 1000), 3000);
-    console.log("reeef", ref1.current);
   };
   const handleCoseDialog = (chose1: boolean) => {
     setOpen(false);
@@ -35,7 +34,6 @@ export const Map: React.FC<TMapView> = ({ setLocation }) => {
           if (Boolean(myLocation)) {
             setChosenLocation(myLocation as TLocation);
             setOpen(true);
-            console.log(myLocation, "dasdadsad");
             goToMyLocation(myLocation as TLocation);
           }
         }}

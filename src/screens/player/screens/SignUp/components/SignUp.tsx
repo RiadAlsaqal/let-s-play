@@ -18,7 +18,6 @@ export const SignUp = () => {
           <FormElementFactory
             elementProps={{
               label: "first Name",
-              textColor: "black",
             }}
             type="TextField"
             name="firstName"
@@ -38,16 +37,10 @@ export const SignUp = () => {
               placeholder: "email",
             }}
           />
+
           <FormElementFactory
             type="TextField"
             name="password"
-            elementProps={{
-              label: "password",
-            }}
-          />
-          <FormElementFactory
-            type="TextField"
-            name="phone"
             elementProps={{
               label: "password",
               right: <TextInput.Affix text="./100" />,
@@ -85,7 +78,7 @@ export const SignUp = () => {
           phone,
           password,
         },
-      });
+      }).then((e) => console.log("eeee", e));
     },
     validationSchema: SignupValidationSchema,
     mapPropsToValues: (props) => ({
@@ -95,7 +88,7 @@ export const SignUp = () => {
       DatePicker: new Date(),
       MapView: undefined,
       password: "",
-      phone: "",
+      phone: 0,
     }),
   });
   return <Form />;
@@ -104,7 +97,6 @@ export const SignUp = () => {
 const style = StyleSheet.create({
   form: {
     flex: 1,
-    //alignItems: "center",
     justifyContent: "center",
   },
 });
@@ -116,7 +108,7 @@ type TValues = {
   password: string;
   DatePicker: Date;
   MapView: TLocation | undefined;
-  phone: string;
+  phone: number;
 };
 
 type TLocation = {

@@ -1,16 +1,14 @@
-import React, { createContext, useCallback, useContext } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+} from "react";
 import * as SecureStore from "expo-secure-store";
 
-export const getToken = (() => {
-  let token: string | null = null;
-  return async (key: string) => {
-    if (!Boolean(token)) {
-      token = await SecureStore.getItemAsync(key);
-      return token;
-    }
-    return token;
-  };
-})();
+export const getToken = async (key: string) => {
+  return await SecureStore.getItemAsync(key);
+};
 
 const AuthContext = createContext<TAuthContext>({
   Auth: false,
@@ -52,11 +50,19 @@ export const AuthProvider = ({
       });
     return status;
   }, []);
+  const checkIfLogin = async () => {
+    let userToken = await getToken("token");
+    if (!!userToken) handleAuth(true);
+  };
   const providerValue: TAuthContext = {
     Auth: auth,
     deleteToken,
     saveToken,
   };
+
+  useEffect(() => {
+    checkIfLogin();
+  }, []);
 
   return (
     <AuthContext.Provider value={providerValue}>

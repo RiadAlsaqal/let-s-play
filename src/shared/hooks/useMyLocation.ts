@@ -18,9 +18,7 @@ export const useMyLocation = () => {
         latitudeDelta: kMToLatitudes(0.1),
       };
       return data;
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
   const getMyLocatiopn = async () => {
     if (!status?.granted) {

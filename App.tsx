@@ -5,12 +5,10 @@ import {
   MD3LightTheme as DefaultTheme,
 } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Index from "./index";
 import { colors } from "./src/theme.json";
 import { AuthProvider } from "./src/shared/Auth";
 import { ApolloProvider } from "./src/shared/Apollo";
-const Stack = createNativeStackNavigator();
 
 const theme = {
   ...DefaultTheme,

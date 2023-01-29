@@ -1,13 +1,7 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { SignUp } from "@src/screens/player";
-import { NavigationContainer } from "@react-navigation/native";
-const Stack = createNativeStackNavigator();
-
+import { NotAuthScreen } from "./NotAuthScreen";
+import { useAuth } from "@src/shared/Auth";
 export const Navigator = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="SignUp" component={SignUp} />
-    </Stack.Navigator>
-  );
+  const auth = useAuth();
+  return <NotAuthScreen />;
 };

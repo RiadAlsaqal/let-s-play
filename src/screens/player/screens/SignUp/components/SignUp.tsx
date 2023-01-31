@@ -1,7 +1,6 @@
 import { View, StyleSheet } from "react-native";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@src/shared/hooks";
 import { SignupValidationSchema } from "../utils/SignupValidationSchema";
-import { useEffect } from "react";
 import { SIGNUP_MUTATION } from "../querys";
 import { TextInput } from "react-native-paper";
 import { FormElementFactory, withFormikForm } from "@src/shared/form";

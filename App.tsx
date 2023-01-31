@@ -9,7 +9,7 @@ import Index from "./index";
 import { colors } from "./src/theme.json";
 import { AuthProvider } from "./src/shared/Auth";
 import { ApolloProvider } from "./src/shared/Apollo";
-
+import { LoadingProvider } from "./src/shared/Loading";
 const theme = {
   ...DefaultTheme,
   colors: colors,
@@ -20,9 +20,11 @@ export default function App() {
     <PaperProvider theme={theme}>
       <AuthProvider>
         <ApolloProvider>
-          <NavigationContainer>
-            <Index />
-          </NavigationContainer>
+          <LoadingProvider>
+            <NavigationContainer>
+              <Index />
+            </NavigationContainer>
+          </LoadingProvider>
         </ApolloProvider>
       </AuthProvider>
     </PaperProvider>

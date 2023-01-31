@@ -5,9 +5,12 @@ import { StyleSheet, View } from "react-native";
 import { loginValidationSchema } from "../utils";
 import { useMutation } from "@src/shared/hooks";
 import { LOGIN_MUTATION } from "../querys";
+import { useAuth } from "@src/shared/Auth";
 export const Login = () => {
-  const [Mutat, { data, loading, error }] = useMutation(LOGIN_MUTATION);
-
+  const [Mutat, { data, loading, error }] =
+    useMutation<TResponse>(LOGIN_MUTATION);
+  const { saveToken, Auth } = useAuth();
+  console.log("auth", Auth);
   const LogInForm = withFormikForm<{}, TValue>({
     children: (props) => {
       return (
@@ -39,15 +42,19 @@ export const Login = () => {
         </View>
       );
     },
-    handleSubmit: ({ email, password }) =>
+    handleSubmit: ({ email, password }) => {
       Mutat({
-        variables: {
-          email,
-          password,
-        },
-      }).then((e) => {
-        console.log("eeeeeeeeee", e);
-      }),
+        variables: { email, password },
+      })
+        .then((e) => {
+          console.log("data", e);
+          saveToken?.({
+            key: "token",
+            value: e.data?.login?.token as string,
+          });
+        })
+        .catch((e) => console.log("eeeeeee", e));
+    },
     validationSchema: loginValidationSchema,
   });
 
@@ -63,4 +70,12 @@ const style = StyleSheet.create({
 type TValue = {
   email: string;
   password: string;
+};
+
+type TResponse = {
+  login: {
+    token: string;
+    success: boolean;
+    errors: string | null;
+  };
 };

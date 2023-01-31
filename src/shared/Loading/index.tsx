@@ -17,7 +17,6 @@ export const LoadingProvider: React.FC<TProps> = ({ children }) => {
     loading,
     handleLoading,
   };
-  console.log("loading", loading);
   return (
     <LoadingContext.Provider value={providerValue}>
       <>

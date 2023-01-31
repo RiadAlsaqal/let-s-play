@@ -4,14 +4,12 @@ import { SignupValidationSchema } from "../utils/SignupValidationSchema";
 import { SIGNUP_MUTATION } from "../querys";
 import { TextInput } from "react-native-paper";
 import { FormElementFactory, withFormikForm } from "@src/shared/form";
+import { useAuth } from "@src/shared/Auth";
 
 export const SignUp = () => {
   const [Mutat, { data, loading, error }] = useMutation(SIGNUP_MUTATION);
-
   const Form = withFormikForm<{}, TValues>({
     children: (props) => {
-      console.log(props);
-
       return (
         <View style={style.form}>
           <FormElementFactory
@@ -77,7 +75,7 @@ export const SignUp = () => {
           phone,
           password,
         },
-      }).then((e) => console.log("eeee", e));
+      });
     },
     validationSchema: SignupValidationSchema,
     mapPropsToValues: (props) => ({

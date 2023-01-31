@@ -1,7 +1,8 @@
 import React from "react";
 import { NotAuthScreen } from "./NotAuthScreen";
+import { AuthScreens } from "./AuthScreens";
 import { useAuth } from "@src/shared/Auth";
 export const Navigator = () => {
-  const auth = useAuth();
-  return <NotAuthScreen />;
+  const { Auth } = useAuth();
+  return Auth ? <AuthScreens /> : <NotAuthScreen />;
 };

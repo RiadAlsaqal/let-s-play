@@ -21,16 +21,22 @@ export const AuthProvider = ({
   children: React.ReactElement;
 }) => {
   const [auth, setAuth] = React.useState(false);
+  console.log("authttt", auth);
   const handleAuth = (state: boolean) => setAuth(state);
 
   const saveToken = useCallback(
     async ({ key, value }: { key: string; value: string }) => {
+      console.log("saving");
       return await SecureStore.setItemAsync(key, value)
         .then(() => {
+          console.log("saving10");
+
           handleAuth(true);
           return true;
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log("saving20");
+
           return false;
         });
     },

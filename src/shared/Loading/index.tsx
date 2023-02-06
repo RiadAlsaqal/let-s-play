@@ -1,7 +1,5 @@
 import React from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
-import { useApolloClient } from "@apollo/client";
-
+import { Loader } from "../components";
 const LoadingContext = React.createContext<TLoadingContext>({
   handleLoading: null,
   loading: false,
@@ -21,11 +19,7 @@ export const LoadingProvider: React.FC<TProps> = ({ children }) => {
     <LoadingContext.Provider value={providerValue}>
       <>
         {children}
-        {loading && (
-          <View style={style.View}>
-            <ActivityIndicator size="large" color="#00ff00" />
-          </View>
-        )}
+        {loading && <Loader />}
       </>
     </LoadingContext.Provider>
   );
@@ -35,13 +29,6 @@ export const useHandleLoading = () => {
 
   return loading;
 };
-const style = StyleSheet.create({
-  View: {
-    position: "absolute",
-    top: "50%",
-    right: "50%",
-  },
-});
 
 type TProps = {
   children: React.ReactElement;

@@ -11,7 +11,7 @@ export const getToken = async (key: string) => {
 };
 
 const AuthContext = createContext<TAuthContext>({
-  Auth: false,
+  Auth: "loading",
   deleteToken: undefined,
   saveToken: undefined,
 });
@@ -20,7 +20,7 @@ export const AuthProvider = ({
 }: {
   children: React.ReactElement;
 }) => {
-  const [auth, setAuth] = React.useState(false);
+  const [auth, setAuth] = React.useState<TAuth>("loading");
   console.log("authttt", auth);
   const handleAuth = (state: boolean) => setAuth(state);
 
@@ -29,24 +29,20 @@ export const AuthProvider = ({
       console.log("saving");
       return await SecureStore.setItemAsync(key, value)
         .then(() => {
-          console.log("saving10");
-
           handleAuth(true);
           return true;
         })
         .catch((e) => {
-          console.log("saving20");
-
           return false;
         });
     },
     []
   );
 
-  const deleteToken = useCallback(async (key: string) => {
+  const deleteToken = useCallback(async () => {
     let status: boolean = false;
 
-    await SecureStore.deleteItemAsync(key)
+    await SecureStore.deleteItemAsync("token")
       .then(() => {
         handleAuth(false);
         status = true;
@@ -59,6 +55,9 @@ export const AuthProvider = ({
   const checkIfLogin = async () => {
     let userToken = await getToken("token");
     if (!!userToken) handleAuth(true);
+    else {
+      handleAuth(false);
+    }
   };
   const providerValue: TAuthContext = {
     Auth: auth,
@@ -69,7 +68,7 @@ export const AuthProvider = ({
   useEffect(() => {
     checkIfLogin();
   }, []);
-
+  console.log("auth", auth);
   return (
     <AuthContext.Provider value={providerValue}>
       {children}
@@ -84,9 +83,11 @@ export const useAuth = () => {
 };
 
 type TAuthContext = {
-  Auth: boolean;
+  Auth: TAuth;
   saveToken:
     | (({ key, value }: { key: string; value: string }) => Promise<boolean>)
     | undefined;
-  deleteToken: ((key: string) => Promise<boolean>) | undefined;
+  deleteToken: (() => Promise<boolean>) | undefined;
 };
+
+type TAuth = boolean | "loading";

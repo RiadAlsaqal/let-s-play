@@ -10,6 +10,7 @@ import { colors } from "./src/theme.json";
 import { AuthProvider } from "./src/shared/Auth";
 import { ApolloProvider } from "./src/shared/Apollo";
 import { LoadingProvider } from "./src/shared/Loading";
+import { ErrorBoundryProvider } from "./src/shared/ErrorBoundry";
 const theme = {
   ...DefaultTheme,
   colors: colors,
@@ -18,15 +19,17 @@ const theme = {
 export default function App() {
   return (
     <PaperProvider theme={theme}>
-      <AuthProvider>
-        <ApolloProvider>
-          <LoadingProvider>
-            <NavigationContainer>
-              <Index />
-            </NavigationContainer>
-          </LoadingProvider>
-        </ApolloProvider>
-      </AuthProvider>
+      <ErrorBoundryProvider>
+        <AuthProvider>
+          <ApolloProvider>
+            <LoadingProvider>
+              <NavigationContainer>
+                <Index />
+              </NavigationContainer>
+            </LoadingProvider>
+          </ApolloProvider>
+        </AuthProvider>
+      </ErrorBoundryProvider>
     </PaperProvider>
   );
 }

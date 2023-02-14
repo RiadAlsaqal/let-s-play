@@ -21,12 +21,10 @@ export const AuthProvider = ({
   children: React.ReactElement;
 }) => {
   const [auth, setAuth] = React.useState<TAuth>("loading");
-  console.log("authttt", auth);
   const handleAuth = (state: boolean) => setAuth(state);
 
   const saveToken = useCallback(
     async ({ key, value }: { key: string; value: string }) => {
-      console.log("saving");
       return await SecureStore.setItemAsync(key, value)
         .then(() => {
           handleAuth(true);
@@ -68,7 +66,6 @@ export const AuthProvider = ({
   useEffect(() => {
     checkIfLogin();
   }, []);
-  console.log("auth", auth);
   return (
     <AuthContext.Provider value={providerValue}>
       {children}

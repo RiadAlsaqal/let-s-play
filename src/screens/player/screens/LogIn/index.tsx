@@ -2,7 +2,10 @@ import { ScrollView, View } from "react-native";
 import { useTheme } from "react-native-paper";
 import { Login } from "./components";
 import { MyText } from "@src/shared/components/Text";
-import type { TNavigation } from "@src/shared/types";
+import type {
+  TNavigation,
+  RootStackNotAuthScreenProps,
+} from "@src/shared/types";
 import { withNavigation } from "@src/shared/HOC";
 const ScreenLogIn: React.FC<TProps> = ({ navigation: { navigate } }) => {
   const theme = useTheme();
@@ -18,7 +21,7 @@ const ScreenLogIn: React.FC<TProps> = ({ navigation: { navigate } }) => {
               color: theme.colors.primary,
             }}
             onPress={() => {
-              navigate("SignUp" as never);
+              navigate("SignUp");
             }}
           >
             Signup here
@@ -32,5 +35,5 @@ const ScreenLogIn: React.FC<TProps> = ({ navigation: { navigate } }) => {
 export const ScreenLogInWithNavigation = withNavigation(ScreenLogIn);
 
 type TProps = {
-  navigation: TNavigation;
+  navigation: TNavigation<RootStackNotAuthScreenProps>;
 };

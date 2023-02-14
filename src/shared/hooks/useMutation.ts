@@ -29,3 +29,19 @@ export function useMutation<
   }
   return result;
 }
+
+type TOptions<
+  TData = any,
+  TVariables = OperationVariables,
+  TContext = DefaultContext,
+  TCache extends ApolloCache<any> = ApolloCache<any>
+> = MutationHookOptions<TData, TVariables, TContext, TCache>;
+
+type TMutation<TData = any, TVariables = OperationVariables> =
+  | DocumentNode
+  | TypedDocumentNode<TData, TVariables>;
+
+export type MutationTypes = {
+  Mutation: TMutation;
+  Options?: TOptions;
+};

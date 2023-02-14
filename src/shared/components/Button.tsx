@@ -6,3 +6,4 @@ const ButtonNoTheme: React.FC<ButtonProps> = (props) => {
 };
 
 export const MyButton = withTheme(ButtonNoTheme);
+export type TButtonProps = ButtonProps;

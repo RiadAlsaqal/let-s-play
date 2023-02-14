@@ -10,7 +10,6 @@ export const Login = () => {
   const [Mutat, { data, loading, error }] =
     useMutation<TResponse>(LOGIN_MUTATION);
   const { saveToken, Auth } = useAuth();
-  console.log("auth", Auth);
   const LogInForm = withFormikForm<{}, TValue>({
     children: (props) => {
       return (
@@ -47,7 +46,6 @@ export const Login = () => {
         variables: { email, password },
       })
         .then((e) => {
-          console.log("data", e);
           saveToken?.({
             key: "token",
             value: e.data?.login?.token as string,

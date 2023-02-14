@@ -1,3 +1,4 @@
 import { NavigationProp } from "@react-navigation/native";
 
-export type TNavigation = NavigationProp<ReactNavigation.RootParamList>;
+export type TNavigation<T extends ReactNavigation.RootParamList> =
+  NavigationProp<T>;

@@ -1,5 +1,10 @@
 import React from "react";
-import { Logout } from "./components";
+import { Logout, AvailabiltyOnTheMap } from "./components";
 export const ScreenSetting = () => {
-  return <Logout />;
+  return (
+    <>
+      <AvailabiltyOnTheMap />
+      <Logout />
+    </>
+  );
 };

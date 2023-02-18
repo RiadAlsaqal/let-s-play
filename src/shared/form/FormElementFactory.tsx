@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { StyleSheet, View, ViewProps } from "react-native";
+import { StyleSheet, View, ViewProps, Image } from "react-native";
 import { Text, useTheme, MD3Theme } from "react-native-paper";
-import { Field, FieldMetaProps, FieldProps, FormikHandlers } from "formik";
+import { Field, FieldMetaProps, FieldProps } from "formik";
 import { DatePicker } from "./index";
 import {
   TElements,
@@ -10,7 +10,9 @@ import {
   TDatePickerProps,
   TTextFiledProps,
 } from "./types";
-import { MapView, Button, TextInput } from "../components";
+import { DropDownPickerProps } from "../types";
+import { MapView, Button, TextInput, DropDown } from "../components";
+import * as ImagePicker from "expo-image-picker";
 const ErrorMessage = ({ meta, theme }: TErrorMessage) => (
   <>
     {meta.touched && meta.error && (
@@ -27,9 +29,20 @@ const ElementFactory = <T extends TElements>({
   FieldProps,
   elementProps,
   type,
+  children,
 }: TElementFactory<T>) => {
   const handleChangeLocation = (location: TLocation) => {
     FieldProps.form.setFieldValue(FieldProps.field.name, location);
+  };
+  const handleChoceImage = (img: ImagePicker.ImagePickerResult) => {
+    const formData = new FormData();
+    formData.append("picture", {
+      uri: img.assets![0].uri,
+      type: img.assets![0].type,
+      name: img.assets![0].fileName,
+    } as any);
+
+    FieldProps.form.setFieldValue(FieldProps.field.name, formData);
   };
   const element: Record<TElements, React.ReactElement> = {
     TextField: (
@@ -52,6 +65,35 @@ const ElementFactory = <T extends TElements>({
       <DatePicker elementProps={elementProps} FieldProps={FieldProps} />
     ),
     MapView: <MapView setLocation={handleChangeLocation} />,
+    ImagePicker: (
+      <>
+        <Image />
+        <Button
+          onPress={async () => {
+            const image = await ImagePicker.launchImageLibraryAsync({
+              mediaTypes: ImagePicker.MediaTypeOptions.All,
+              base64: true,
+            });
+            handleChoceImage(image);
+          }}
+        >
+          pick photo
+        </Button>
+      </>
+    ),
+    DropDown: (
+      <DropDown
+        {...(elementProps as DropDownPickerProps<number>)}
+        value={FieldProps.field.value as number}
+        setValue={(x) => {
+          FieldProps.form.setFieldValue(
+            FieldProps.field.name,
+            x(FieldProps.field.value)
+          );
+        }}
+      />
+    ),
+    custom: children as React.ReactElement,
   };
   return <>{element[type as TElements]}</>;
 };
@@ -84,6 +126,7 @@ type TErrorMessage = {
 };
 
 type TElementFactory<T extends TElements> = {
+  children?: React.ReactElement;
   FieldProps: FieldProps;
 } & Omit<TFormElementFactory<T>, "name">;
 
@@ -92,6 +135,7 @@ type TFormElementFactory<T extends TElements> = {
   type: T;
   elementProps?: getElementType<T>;
   containerProps?: ViewProps;
+  children?: React.ReactElement;
 };
 
 type TLocation = {

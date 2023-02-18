@@ -2,7 +2,7 @@ import React from "react";
 import { ADD_FRIEND_MUTATION } from "../querys";
 import { ButtonMutation } from "./ButtonMutation";
 
-export const ButtonAdd: React.FC<TProps> = ({ pk }) => {
+export const ButtonAdd: React.FC<TProps> = ({ pk, refetch }) => {
   return (
     <ButtonMutation
       query={{
@@ -11,6 +11,7 @@ export const ButtonAdd: React.FC<TProps> = ({ pk }) => {
           variables: {
             playerPk: pk,
           },
+          onCompleted: refetch,
         },
       }}
     >
@@ -21,4 +22,5 @@ export const ButtonAdd: React.FC<TProps> = ({ pk }) => {
 
 type TProps = {
   pk: number;
+  refetch: () => void;
 };

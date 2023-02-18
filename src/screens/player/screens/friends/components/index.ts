@@ -10,3 +10,4 @@ export { ButtonAdd } from "./ButtonAdd";
 export { ButtonAcceptFriend } from "./ButtonAcceptFriend";
 export { ButtonRejectFriend } from "./ButtonRejectFriend";
 export { ButtonCansel } from "./ButtonCansel";
+export { FindPlayerOnMap } from "./FindPlayerOnMap";

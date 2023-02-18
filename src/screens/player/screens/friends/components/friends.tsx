@@ -6,7 +6,10 @@ import { withNavigation } from "@src/shared/HOC";
 import { TNavigation, TRootStackFriendsScreenProps } from "@src/shared/types";
 import { FontAwesome } from "@expo/vector-icons";
 import { ButtonInfo } from "./index";
+import { useMyLocation } from "@src/shared/hooks";
 const Friends: React.FC<TProps> = ({ navigation }) => {
+  const { getMyLocatiopn } = useMyLocation();
+
   return (
     <ScrollView
       style={{
@@ -26,6 +29,20 @@ const Friends: React.FC<TProps> = ({ navigation }) => {
       >
         search pepole
       </Button>
+      <Button
+        mode="outlined"
+        style={style.Button}
+        onPress={async () => {
+          const myLocation = await getMyLocatiopn();
+          if (Boolean(myLocation)) {
+            navigation.navigate("findPlayerOnMap", {
+              myLocation: myLocation as TLocation,
+            });
+          }
+        }}
+      >
+        find player on map
+      </Button>
       <FriendsList />
     </ScrollView>
   );
@@ -41,4 +58,10 @@ const style = StyleSheet.create({
 
 type TProps = {
   navigation: TNavigation<TRootStackFriendsScreenProps>;
+};
+type TLocation = {
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
 };

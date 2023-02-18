@@ -29,4 +29,5 @@ export const SignupValidationSchema = Yup.object().shape({
         return typeof longitude === "number";
       },
     }),
+  image: Yup.object(),
 });

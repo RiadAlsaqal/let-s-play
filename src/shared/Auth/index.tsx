@@ -25,6 +25,7 @@ export const AuthProvider = ({
 
   const saveToken = useCallback(
     async ({ key, value }: { key: string; value: string }) => {
+      console.log("token", value);
       return await SecureStore.setItemAsync(key, value)
         .then(() => {
           handleAuth(true);

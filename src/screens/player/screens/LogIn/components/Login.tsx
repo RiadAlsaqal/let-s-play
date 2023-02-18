@@ -51,7 +51,7 @@ export const Login = () => {
             value: e.data?.login?.token as string,
           });
         })
-        .catch((e) => console.log("eeeeeee", e));
+        .catch((e) => {});
     },
     validationSchema: loginValidationSchema,
   });

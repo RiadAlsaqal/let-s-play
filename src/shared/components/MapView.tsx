@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import MapView, { Marker, Callout } from "react-native-maps";
-import { StyleSheet, View, Button as B1 } from "react-native";
-import { Button, Text, Dialog, Portal, useTheme } from "react-native-paper";
+import React, { useRef, useState } from "react";
+import MapView, { Marker } from "react-native-maps";
+import { StyleSheet, View } from "react-native";
+import { Button, Dialog, Portal, useTheme } from "react-native-paper";
 import { useMyLocation } from "../hooks";
-import Icon from "react-native-vector-icons/FontAwesome5";
 export const Map: React.FC<TMapView> = ({ setLocation }) => {
   const [open, setOpen] = useState(false);
   const [chose, setChose] = useState<true | null | false>(null);
@@ -12,7 +11,7 @@ export const Map: React.FC<TMapView> = ({ setLocation }) => {
   const ref1 = useRef<any>(null);
   const [chosenLocation, setChosenLocation] = useState<TLocation>();
   const goToMyLocation = (location: TLocation) => {
-    setTimeout(() => ref1.current.animateToRegion(location, 3 * 1000), 3000);
+    setTimeout(() => ref1?.current?.animateToRegion(location, 3 * 1000), 3000);
   };
   const handleCoseDialog = (chose1: boolean) => {
     setOpen(false);

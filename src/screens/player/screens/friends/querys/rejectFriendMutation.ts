@@ -4,7 +4,6 @@ export const REJECT_FRIEND_MUTATION = createGqlQuery(
   `mutation rejectFriend($playerPk: ID!) {
         rejectFriend(data:{playerPk: $playerPk}) {
           data {
-            state
             pkFriend
             friends {
               userId {

@@ -24,7 +24,7 @@ export const FriendsList = () => {
               <PlayerCard data={{ firstName, lastName, pk }}>
                 <View style={style.View}>
                   <IconButton
-                    onPress={() => console.log("hi")}
+                    onPress={() => {}}
                     mode="contained-tonal"
                     icon={() => <AntDesign size={30} name="message1" />}
                   />

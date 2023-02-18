@@ -4,10 +4,13 @@ import { SignupValidationSchema } from "../utils/SignupValidationSchema";
 import { SIGNUP_MUTATION } from "../querys";
 import { TextInput } from "react-native-paper";
 import { FormElementFactory, withFormikForm } from "@src/shared/form";
+import { LOGIN_MUTATION } from "../../LogIn/querys";
 import { useAuth } from "@src/shared/Auth";
-
 export const SignUp = () => {
   const [Mutat, { data, loading, error }] = useMutation(SIGNUP_MUTATION);
+  const [logIn, { data: logInData }] = useMutation(LOGIN_MUTATION);
+  const { saveToken, Auth } = useAuth();
+
   const Form = withFormikForm<{}, TValues>({
     children: (props) => {
       return (
@@ -34,7 +37,7 @@ export const SignUp = () => {
               placeholder: "email",
             }}
           />
-
+          <FormElementFactory type="ImagePicker" name="Image" />
           <FormElementFactory
             type="TextField"
             name="password"
@@ -64,6 +67,7 @@ export const SignUp = () => {
       lastName,
       password,
       phone,
+      Image,
     }) => {
       Mutat({
         variables: {
@@ -75,7 +79,21 @@ export const SignUp = () => {
           phone,
           password,
         },
-      });
+      })
+        .then(() =>
+          logIn({
+            variables: {
+              email,
+              password,
+            },
+          })
+        )
+        .then((e) => {
+          saveToken?.({
+            key: "token",
+            value: e.data?.login?.token as string,
+          });
+        });
     },
     validationSchema: SignupValidationSchema,
     mapPropsToValues: (props) => ({
@@ -86,6 +104,7 @@ export const SignUp = () => {
       MapView: undefined,
       password: "",
       phone: 0,
+      Image: undefined,
     }),
   });
   return <Form />;
@@ -106,6 +125,7 @@ type TValues = {
   DatePicker: Date;
   MapView: TLocation | undefined;
   phone: number;
+  Image?: FormData;
 };
 
 type TLocation = {

@@ -5,15 +5,24 @@ import DateTimePicker, {
   WindowsNativeProps,
 } from "@react-native-community/datetimepicker";
 import { MapViewProps } from "react-native-maps";
-
+import { DropDownPickerProps } from "../types";
 export type getElementType<T> = T extends "TextField"
   ? TTextFiledProps
   : T extends "SubmitButton"
   ? TSubmitButtonProps
   : T extends "DatePicker"
   ? TDatePickerProps
-  : TMapViewProps;
-export type TElements = "TextField" | "SubmitButton" | "DatePicker" | "MapView";
+  : T extends "DropDown"
+  ? Omit<DropDownPickerProps<number>, "open" | "setOpen" | "value" | "setValue">
+  : MapViewProps;
+export type TElements =
+  | "TextField"
+  | "SubmitButton"
+  | "DatePicker"
+  | "MapView"
+  | "ImagePicker"
+  | "DropDown"
+  | "custom";
 export type TTextFiledProps = {} & Partial<TextInputProps>;
 
 export type TSubmitButtonProps = {

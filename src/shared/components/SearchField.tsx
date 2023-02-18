@@ -29,7 +29,7 @@ const Search = <
   });
   const theme = useTheme();
   let dataKey = Object.keys(data ?? {})[0] as QueryPath1;
-  const children = props.children as TChildren<QueryPath2, TData>;
+  const children = props.children as TChildren;
   return (
     <>
       <Searchbar
@@ -58,15 +58,20 @@ type TSearch<QueryPath2 extends string, TData> = Omit<
   "children" | "theme"
 > & {
   query: TQuery;
-  children: TChildren<QueryPath2, TData>;
+  children: TChildren;
 };
 
 type TQuery = {
   query: DocumentNode | TypedDocumentNode<any, OperationVariables>;
   queryOptions?: LazyQueryHookOptions;
 };
-type TChildren<p2 extends string, T> = (props: {
+type TChildren = (props: {
   node: {
-    [key in p2]: T;
+    state: "friend" | " accept" | " notFriend" | "pending";
+    pkPlayer: number;
+    userId: {
+      firstName: string;
+      lastName: string;
+    };
   };
 }) => React.ReactNode;

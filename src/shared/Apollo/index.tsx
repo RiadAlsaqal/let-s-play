@@ -4,11 +4,13 @@ import {
   InMemoryCache,
   ApolloProvider as Apollo,
   createHttpLink,
+  useApolloClient,
 } from "@apollo/client";
 import { getToken } from "../Auth";
 import { setContext } from "@apollo/client/link/context";
-const httpLink = createHttpLink({
-  uri: "https://abdelwahapbak.pythonanywhere.com/graphql/",
+import { createUploadLink } from "apollo-upload-client";
+const httpLink = createUploadLink({
+  uri: "http://192.168.43.205:8000/graphql/",
 });
 const authLink = setContext(async (_, { headers }) => {
   const token = await getToken("token");
@@ -32,6 +34,10 @@ export const ApolloProvider: React.FC<TApolloProvider> = ({ children }) => {
   );
 };
 
+export const useClient = () => {
+  const client = useApolloClient();
+  return client;
+};
 type TApolloProvider = {
   children: React.ReactElement;
 };

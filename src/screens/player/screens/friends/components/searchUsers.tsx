@@ -27,27 +27,40 @@ export const SearchUsers: React.FC<TProps> = ({ children, searchFriends }) => {
       >
         {({
           node: {
-            userId: { firstName, lastName, pk, state },
+            state,
+            userId: { firstName, lastName },
+            pkPlayer,
           },
-        }) => (
-          <PlayerCard data={{ firstName, lastName, pk }}>
-            <>{children({ firstName, lastName, pk, state })}</>
-          </PlayerCard>
-        )}
+        }) => {
+          return (
+            <PlayerCard data={{ firstName, lastName, pk: pkPlayer }}>
+              <>{children({ firstName, lastName, pk: pkPlayer, state })}</>
+            </PlayerCard>
+          );
+        }}
       </SearchField>
     </View>
   );
 };
 type TProps = {
-  children: (data: TData) => React.ReactNode;
+  children: (data: TParameters) => React.ReactNode;
   searchFriends: boolean;
 };
 
 type TData = {
+  state: "friend" | " accept" | " notFriend" | "pending";
+  pkPlayer: number;
+  userId: {
+    firstName: string;
+    lastName: string;
+  };
+};
+
+type TParameters = {
+  state: "friend" | " accept" | " notFriend" | "pending";
+  pk: number;
   firstName: string;
   lastName: string;
-  pk: number;
-  state: "friend" | " accept" | " notFriend" | "pending";
 };
 
 const style = StyleSheet.create({

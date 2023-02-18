@@ -3,8 +3,13 @@ export type TResponse<T extends string, N extends string, D extends {}> = {
     data: {
       edges: {
         node: {
-          [key in N]: D;
-        } & { state: null | "pending" };
+          state: "friend" | " accept" | " notFriend" | "pending";
+          pkPlayer: number;
+          userId: {
+            firstName: string;
+            lastName: string;
+          };
+        };
       }[];
     };
   };

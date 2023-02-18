@@ -10,7 +10,6 @@ const Card: React.FC<TProps> = ({
   theme,
   children,
 }) => {
-  console.log("ch", children);
   return (
     <Surface style={style.View}>
       <Image source={img ?? Images.defaultImage} style={style.Image} />

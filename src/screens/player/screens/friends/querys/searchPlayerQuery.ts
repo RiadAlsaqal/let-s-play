@@ -6,6 +6,7 @@ export const SEARCH_PLAYER_QUERY = createGqlQuery(
       data(playerName: $playerName, withoutFriend: $withoutFriend) {
         edges {
           node {
+            state
             pkPlayer
             userId {
               firstName

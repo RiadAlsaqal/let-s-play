@@ -6,3 +6,4 @@ export { Loader } from "./Loader";
 export { Snackbar } from "./Snackbar";
 export { MyText } from "./Text";
 export { Switch } from "./Switch";
+export { DropDown } from "./DropDwon";

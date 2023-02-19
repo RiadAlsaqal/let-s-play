@@ -1,1 +1,1 @@
-export { Teams, CreateTeamForm } from "./components";
+export { Teams, CreateTeamForm, TeamProfile } from "./components";

@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { MyText, Button } from "@src/shared/components";
-import { Images } from "../../../../../../assets/images";
+import { Images } from "../../../../assets/images";
 import { MD3Theme, Surface } from "react-native-paper";
 import { withTheme } from "@src/shared/HOC";
 

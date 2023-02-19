@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useQuery } from "@src/shared/hooks";
 import { GET_ALL_FRIENDS_QUERY } from "../querys";
-import { PlayerCard } from "./index";
+import { PlayerCard } from "../../../components";
 import { AntDesign } from "@expo/vector-icons";
 import { IconButton } from "react-native-paper";
 import { ButtonInfo } from "./index";

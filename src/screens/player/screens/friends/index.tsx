@@ -1,6 +1,1 @@
-export {
-  ScreenFriends,
-  playerScreen,
-  playerProfile,
-  FindPlayerOnMap,
-} from "./components";
+export { ScreenFriends, playerScreen, FindPlayerOnMap } from "./components";

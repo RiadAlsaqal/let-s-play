@@ -12,6 +12,7 @@ export const DropDown: React.FC<T> = (props) => {
       setOpen={setOpen}
       setValue={props.setValue}
       value={props.value}
+      placeholder={props.placeholder}
     />
   );
 };

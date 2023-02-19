@@ -3,7 +3,7 @@ import React from "react";
 import { SearchField } from "@src/shared/components";
 import { StyleSheet, View } from "react-native";
 import { SEARCH_PLAYER_QUERY } from "../querys";
-import { PlayerCard } from "./PlayerCard";
+import { PlayerCard } from "../../../components/PlayerCard";
 export const SearchUsers: React.FC<TProps> = ({ children, searchFriends }) => {
   const [value, setValue] = React.useState("");
 

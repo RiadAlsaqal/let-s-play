@@ -3,7 +3,7 @@ import { StyleSheet, View, Image } from "react-native";
 import { RouteProp, TRootStackFriendsScreenProps } from "@src/shared/types";
 import { withRoute } from "@src/shared/HOC";
 import { MyText, Button } from "@src/shared/components";
-import { Images } from "../../../../../../assets/images";
+import { Images } from "../../../../assets/images";
 const User: React.FC<Tprops> = ({ Route }) => {
   const { pk, name, img } = Route.params;
   return (

@@ -1,6 +1,9 @@
 import React from "react";
 import { withFormikForm, FormElementFactory } from "@src/shared/form";
 import { useQuery, useMutation } from "@src/shared/hooks";
+
+import { withNavigation } from "@src/shared/HOC";
+import { TNavigation, TRootStackTeamsScreenProps } from "@src/shared/types";
 import {
   GET_TYPES_OF_TEAMS_QUERY,
   CREATE_TEAM_MUTATION,
@@ -9,6 +12,7 @@ import {
 import { createTeamValidationSchema, extractFriendsFromQuery } from "../utils";
 import { SelectFriends } from "./index";
 import { GET_ALL_FRIENDS_QUERY } from "../../friends/querys";
+
 const extractTypes = (data: TypesResponse) => {
   let array: { label: string; value: number }[] = [];
 
@@ -17,12 +21,14 @@ const extractTypes = (data: TypesResponse) => {
   });
   return array;
 };
-export const CreateTeamForm = () => {
+const CreateTeamFormWithoutNavigation: React.FC<TProps> = ({ navigation }) => {
   const { data } = useQuery<TypesResponse>(GET_TYPES_OF_TEAMS_QUERY);
   const { data: friends } = useQuery<TData>(GET_ALL_FRIENDS_QUERY);
   const [createTeam] = useMutation<TDataCreateTeam>(CREATE_TEAM_MUTATION);
   const [addMembers] = useMutation(ADD_MEMBERS_TO_TEAM_MUTATION);
-
+  const handleNavigatToTeam = () => {
+    navigation.navigate("teams");
+  };
   const Form = withFormikForm<{}, TFormValues>({
     children: (props) => {
       console.log("data", props);
@@ -39,6 +45,7 @@ export const CreateTeamForm = () => {
             name="typeOfTeam"
             elementProps={{
               items: extractTypes(data),
+              placeholder: "select type ot the team",
             }}
           />
           <FormElementFactory
@@ -71,13 +78,16 @@ export const CreateTeamForm = () => {
           typeId: typeOfTeam,
         },
       }).then((e) => {
-        console.log("friends", friends);
-        addMembers({
-          variables: {
-            teamPk: e.data?.createTeam.data.pkTeam,
-            members: selectFriends,
-          },
-        });
+        !!selectFriends?.length
+          ? addMembers({
+              variables: {
+                teamPk: e.data?.createTeam.data.pkTeam,
+                members: selectFriends,
+              },
+            }).then(() => {
+              handleNavigatToTeam();
+            })
+          : handleNavigatToTeam();
       });
     },
     mapPropsToValues: (props) => ({
@@ -87,6 +97,10 @@ export const CreateTeamForm = () => {
     }),
   });
   return <Form />;
+};
+export const CreateTeamForm = withNavigation(CreateTeamFormWithoutNavigation);
+type TProps = {
+  navigation: TNavigation<TRootStackTeamsScreenProps>;
 };
 
 type TypesResponse = {

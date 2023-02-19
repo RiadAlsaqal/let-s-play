@@ -3,9 +3,9 @@ import React from "react";
 import {
   ScreenFriends,
   playerScreen,
-  playerProfile,
   FindPlayerOnMap,
 } from "@src/screens/player/screens/friends";
+import { playerProfile } from "@src/screens/player/components";
 import { TRootStackFriendsScreenProps } from "@src/shared/types";
 const Stack = createStackNavigator<TRootStackFriendsScreenProps>();
 

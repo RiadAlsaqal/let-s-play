@@ -13,8 +13,8 @@ const mapStateToButton = (pk: number, state: tState, refetch: () => void) => {
   const config = {
     accept: (
       <>
-        <ButtonRejectFriend pk={pk} refetch={refetch} />{" "}
-        <ButtonAcceptFriend pk={pk} />
+        <ButtonRejectFriend pk={pk} refetch={refetch} />
+        <ButtonAcceptFriend pk={pk} refetch={refetch} />
       </>
     ),
     notFriend: <ButtonAdd pk={pk} refetch={refetch} />,

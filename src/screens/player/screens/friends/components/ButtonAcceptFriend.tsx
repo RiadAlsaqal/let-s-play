@@ -1,7 +1,7 @@
 import React from "react";
 import { ButtonMutation } from "./index";
 import { ACCEPT_FRIEND_MUTATION } from "../querys";
-export const ButtonAcceptFriend: React.FC<TProps> = ({ pk }) => {
+export const ButtonAcceptFriend: React.FC<TProps> = ({ pk, refetch }) => {
   return (
     <ButtonMutation
       query={{
@@ -10,6 +10,7 @@ export const ButtonAcceptFriend: React.FC<TProps> = ({ pk }) => {
           variables: {
             playerPk: pk,
           },
+          onCompleted: refetch,
         },
       }}
     >
@@ -20,4 +21,5 @@ export const ButtonAcceptFriend: React.FC<TProps> = ({ pk }) => {
 
 type TProps = {
   pk: number;
+  refetch: () => void;
 };

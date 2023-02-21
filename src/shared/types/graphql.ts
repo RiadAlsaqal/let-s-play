@@ -1,9 +1,11 @@
+import { tStatePlayer } from "./TStatePlayer";
+
 export type TResponse<T extends string, N extends string, D extends {}> = {
   [key in T]: {
     data: {
       edges: {
         node: {
-          state: "friend" | " accept" | " notFriend" | "pending";
+          state: tStatePlayer;
           pkPlayer: number;
           userId: {
             firstName: string;

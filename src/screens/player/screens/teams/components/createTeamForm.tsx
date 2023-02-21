@@ -1,7 +1,6 @@
 import React from "react";
 import { withFormikForm, FormElementFactory } from "@src/shared/form";
 import { useQuery, useMutation } from "@src/shared/hooks";
-
 import { withNavigation } from "@src/shared/HOC";
 import { TNavigation, TRootStackTeamsScreenProps } from "@src/shared/types";
 import {
@@ -12,7 +11,7 @@ import {
 import { createTeamValidationSchema, extractFriendsFromQuery } from "../utils";
 import { SelectFriends } from "./index";
 import { GET_ALL_FRIENDS_QUERY } from "../../friends/querys";
-
+import { useRefetchTeams } from "../hooks";
 const extractTypes = (data: TypesResponse) => {
   let array: { label: string; value: number }[] = [];
 
@@ -26,12 +25,12 @@ const CreateTeamFormWithoutNavigation: React.FC<TProps> = ({ navigation }) => {
   const { data: friends } = useQuery<TData>(GET_ALL_FRIENDS_QUERY);
   const [createTeam] = useMutation<TDataCreateTeam>(CREATE_TEAM_MUTATION);
   const [addMembers] = useMutation(ADD_MEMBERS_TO_TEAM_MUTATION);
+  const { refetchTeams } = useRefetchTeams();
   const handleNavigatToTeam = () => {
     navigation.navigate("teams");
   };
   const Form = withFormikForm<{}, TFormValues>({
     children: (props) => {
-      console.log("data", props);
       return !!data && !!friends ? (
         <>
           <FormElementFactory
@@ -78,6 +77,7 @@ const CreateTeamFormWithoutNavigation: React.FC<TProps> = ({ navigation }) => {
           typeId: typeOfTeam,
         },
       }).then((e) => {
+        refetchTeams();
         !!selectFriends?.length
           ? addMembers({
               variables: {

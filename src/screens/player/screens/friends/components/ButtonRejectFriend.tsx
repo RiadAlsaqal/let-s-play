@@ -1,5 +1,5 @@
 import React from "react";
-import { ButtonMutation } from "./index";
+import { ButtonMutation } from "@src/shared/components";
 import { REJECT_FRIEND_MUTATION } from "../querys";
 export const ButtonRejectFriend: React.FC<TProps> = ({ pk, refetch }) => {
   return (

@@ -2,7 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { Circle, Marker } from "react-native-maps";
 import { withRoute } from "@src/shared/HOC";
-import { RouteProp, TRootStackFriendsScreenProps } from "@src/shared/types";
+import {
+  RouteProp,
+  TRootStackFriendsScreenProps,
+  tStatePlayer,
+} from "@src/shared/types";
 import { Button } from "@src/shared/components";
 import { useLazyQuery } from "@src/shared/hooks";
 import { FIND_PLAYER_ON_MAP } from "../querys";
@@ -89,7 +93,7 @@ type TResponse = {
 type TNode = {
   node: {
     pkPlayer: number;
-    state: null;
+    state: tStatePlayer;
     locationLat: string;
     locationLong: string;
     userId: {

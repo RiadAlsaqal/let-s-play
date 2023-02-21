@@ -1,37 +1,97 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import { RouteProp, TRootStackTeamsScreenProps } from "@src/shared/types";
+import { View, StyleSheet, ScrollView } from "react-native";
+import {
+  RouteProp,
+  TRootStackTeamsScreenProps,
+  TNavigation,
+  tStatePlayer,
+} from "@src/shared/types";
 import { useQuery } from "@src/shared/hooks";
 import { GET_TEAM_QUERY, GET_MEMBERS_OF_TEAM_QUERY } from "../query";
-import { withRoute } from "@src/shared/HOC";
-import { Avatar } from "react-native-paper";
+import { withRoute, withNavigation } from "@src/shared/HOC";
+import { Avatar, IconButton } from "react-native-paper";
+import { useAuth } from "@src/shared/Auth";
 import { Images } from "../../../../../../assets/images";
 import { MyText } from "@src/shared/components";
-
-const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route }) => {
+import { PlayerCard } from "../../../components";
+import { DeleteTeam } from "./index";
+import { flowRight } from "lodash";
+const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
   const { teamPk } = Route.params;
+  const { user } = useAuth();
   const { data } = useQuery<TDataTeam>(GET_TEAM_QUERY, {
     variables: {
       id: teamPk,
     },
   });
-  const {} = useQuery(GET_MEMBERS_OF_TEAM_QUERY);
-  console.log("data", data);
+
+  const { data: members } = useQuery<TDataMembers>(GET_MEMBERS_OF_TEAM_QUERY, {
+    variables: {
+      id: teamPk,
+    },
+  });
+  const isCaptin = (member: typeof members) => {
+    const theCaptin = member?.memmberTeamById.data.edges.filter(
+      (e) => e.node.isCaptin
+    );
+    console.log(
+      "me",
+      user?.user?.pk,
+      "cap",
+      theCaptin?.[0].node.member.pkPlayer
+    );
+    return user?.user?.pk === theCaptin?.[0].node.member.pkPlayer;
+  };
   return (
     <View style={style.View}>
       <View style={style.imageNameView}>
         <Avatar.Image source={Images.defaultImage} />
         <MyText>{data?.myTeamById.data.edges[0].node.name}</MyText>
       </View>
+      {isCaptin(members) && <DeleteTeam pk={teamPk} />}
+      <MyText style={{ alignSelf: "flex-start" }}> members:</MyText>
+      <ScrollView style={style.ScrollView}>
+        {members?.memmberTeamById.data.edges.map(
+          ({
+            node: {
+              isCaptin,
+              member: {
+                pkPlayer,
+                state,
+                userId: { firstName, lastName },
+              },
+            },
+          }) => (
+            <PlayerCard data={{ firstName, lastName, pk: pkPlayer }}>
+              {isCaptin && <MyText> Captin</MyText>}
+
+              <IconButton
+                icon="arrow-right"
+                onPress={() =>
+                  navigation.navigate("playerProfile", {
+                    name: firstName + " " + lastName,
+                    pk: pkPlayer,
+                    state,
+                  })
+                }
+              />
+            </PlayerCard>
+          )
+        )}
+      </ScrollView>
     </View>
   );
 };
-export const TeamProfile = withRoute(TeamProfileWithoutRoute);
+export const TeamProfile = flowRight(
+  withNavigation,
+  withRoute
+)(TeamProfileWithoutRoute);
 const style = StyleSheet.create({
   View: {
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
+    width: "100%",
   },
   imageNameView: {
     flexDirection: "row",
@@ -39,10 +99,14 @@ const style = StyleSheet.create({
     width: "100%",
     alignItems: "center",
   },
+  ScrollView: {
+    width: "100%",
+  },
 });
 
 type TProps = {
   Route: RouteProp<TRootStackTeamsScreenProps, "teamProfle">;
+  navigation: TNavigation<TRootStackTeamsScreenProps>;
 };
 
 type TDataTeam = {
@@ -67,20 +131,18 @@ type TDataMembers = {
       edges: [
         {
           node: {
-            isCaptin: true;
+            isCaptin: boolean;
             member: {
-              pkPlayer: 12;
-              state: null;
+              pkPlayer: number;
+              state: tStatePlayer;
               userId: {
-                firstName: "Riad";
-                lastName: "Al";
+                firstName: string;
+                lastName: string;
               };
             };
           };
         }
       ];
     };
-    message: "OK";
-    status: 200;
   };
 };

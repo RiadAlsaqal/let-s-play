@@ -1,3 +1,5 @@
+import { tStatePlayer } from "./TStatePlayer";
+
 export type TRootStackFriendsScreenProps = {
   Friends: undefined;
   players: undefined;
@@ -8,6 +10,7 @@ export type TRootStackFriendsScreenProps = {
     pk: number;
     name: string;
     img?: string;
+    state: tStatePlayer;
   };
 };
 

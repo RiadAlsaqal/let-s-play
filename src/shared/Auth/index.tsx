@@ -5,6 +5,8 @@ import React, {
   useEffect,
 } from "react";
 import * as SecureStore from "expo-secure-store";
+import { createGqlQuery } from "../factory";
+import { useLazyQuery } from "../hooks";
 
 export const getToken = async (key: string) => {
   return await SecureStore.getItemAsync(key);
@@ -12,8 +14,6 @@ export const getToken = async (key: string) => {
 
 const AuthContext = createContext<TAuthContext>({
   Auth: "loading",
-  deleteToken: undefined,
-  saveToken: undefined,
 });
 export const AuthProvider = ({
   children,
@@ -21,11 +21,15 @@ export const AuthProvider = ({
   children: React.ReactElement;
 }) => {
   const [auth, setAuth] = React.useState<TAuth>("loading");
+  const [user, setUser] = React.useState<TUser>();
+  const [getMyProfile, { data }] = useLazyQuery<TData>(GET_MY_PROFILE_QUERY);
   const handleAuth = (state: boolean) => setAuth(state);
+  const handleUser = (user: TUser) => {
+    setUser(user);
+  };
 
   const saveToken = useCallback(
     async ({ key, value }: { key: string; value: string }) => {
-      console.log("token", value);
       return await SecureStore.setItemAsync(key, value)
         .then(() => {
           handleAuth(true);
@@ -63,11 +67,28 @@ export const AuthProvider = ({
     Auth: auth,
     deleteToken,
     saveToken,
+    user,
+    handleUser,
   };
 
   useEffect(() => {
     checkIfLogin();
-  }, []);
+    auth === true &&
+      getMyProfile().then((e) => {
+        console.log("here");
+        const user = e.data?.playerMe.data.edges[0].node;
+        handleUser({
+          user: {
+            email: user?.userId.email as string,
+            firstName: user?.userId.firstName as string,
+            lastName: user?.userId.lastName as string,
+            phone: user?.userId.phone as number,
+            pk: user?.pkPlayer as number,
+            username: user?.userId.username as string,
+          },
+        });
+      });
+  }, [auth]);
   return (
     <AuthContext.Provider value={providerValue}>
       {children}
@@ -81,12 +102,74 @@ export const useAuth = () => {
   return auth;
 };
 
+const GET_MY_PROFILE_QUERY = createGqlQuery(
+  `
+  query  getMyProfile{
+    playerMe{
+      data{
+        edges{
+          node{
+            pkPlayer
+           userId{
+            username
+            phone
+            firstName
+            lastName
+            email
+            
+          }
+            
+          }
+        }
+      }
+      status
+      message
+    }
+  }
+  `
+);
+
 type TAuthContext = {
   Auth: TAuth;
-  saveToken:
-    | (({ key, value }: { key: string; value: string }) => Promise<boolean>)
-    | undefined;
-  deleteToken: (() => Promise<boolean>) | undefined;
+  saveToken?: ({
+    key,
+    value,
+  }: {
+    key: string;
+    value: string;
+  }) => Promise<boolean>;
+
+  deleteToken?: () => Promise<boolean>;
+  user?: TUser;
+  handleUser?: (user: TUser) => void;
+};
+type TUser = {
+  user?: {
+    username: string;
+    phone: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    pk: number;
+  };
 };
 
+type TData = {
+  playerMe: {
+    data: {
+      edges: {
+        node: {
+          pkPlayer: number;
+          userId: {
+            username: string;
+            phone: number;
+            firstName: string;
+            lastName: string;
+            email: string;
+          };
+        };
+      }[];
+    };
+  };
+};
 type TAuth = boolean | "loading";

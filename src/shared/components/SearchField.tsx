@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView } from "react-native";
 import { Searchbar, SearchbarProps, useTheme } from "react-native-paper";
-import { TResponse } from "../types";
+import { TResponse, tStatePlayer } from "../types";
 import { useDebouncer, useLazyQuery } from "../hooks";
 import {
   DocumentNode,
@@ -67,7 +67,7 @@ type TQuery = {
 };
 type TChildren = (props: {
   node: {
-    state: "friend" | " accept" | " notFriend" | "pending";
+    state: tStatePlayer;
     pkPlayer: number;
     userId: {
       firstName: string;

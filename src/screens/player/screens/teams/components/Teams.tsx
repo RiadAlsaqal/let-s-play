@@ -8,7 +8,6 @@ import { GET_MY_TEAMS_QUERY } from "../query";
 import { Divider } from "react-native-paper";
 const TeamsWithoutNavigation: React.FC<TProps> = ({ navigation }) => {
   const { data, error } = useQuery<TData>(GET_MY_TEAMS_QUERY);
-  console.log("data", data, error);
   return (
     <>
       <Button

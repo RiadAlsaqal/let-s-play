@@ -20,15 +20,15 @@ export default function App() {
   return (
     <PaperProvider theme={theme}>
       <ErrorBoundryProvider>
-        <AuthProvider>
-          <ApolloProvider>
+        <ApolloProvider>
+          <AuthProvider>
             <LoadingProvider>
               <NavigationContainer>
                 <Index />
               </NavigationContainer>
             </LoadingProvider>
-          </ApolloProvider>
-        </AuthProvider>
+          </AuthProvider>
+        </ApolloProvider>
       </ErrorBoundryProvider>
     </PaperProvider>
   );

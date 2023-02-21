@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, ViewProps, Image } from "react-native";
-import { Text, useTheme, MD3Theme } from "react-native-paper";
+import { Text, useTheme } from "react-native-paper";
 import { Field, FieldMetaProps, FieldProps } from "formik";
 import { DatePicker } from "./index";
 import {
@@ -10,7 +10,7 @@ import {
   TDatePickerProps,
   TTextFiledProps,
 } from "./types";
-import { DropDownPickerProps } from "../types";
+import { DropDownPickerProps, MD3Theme } from "../types";
 import { MapView, Button, TextInput, DropDown } from "../components";
 import * as ImagePicker from "expo-image-picker";
 const ErrorMessage = ({ meta, theme }: TErrorMessage) => (

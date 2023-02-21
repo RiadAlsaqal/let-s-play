@@ -3,3 +3,4 @@ export { CreateTeamForm } from "./createTeamForm";
 export { SelectFriends } from "./SelectFriends";
 export { TeamCard } from "./teamCard";
 export { TeamProfile } from "./teamProfile";
+export { DeleteTeam } from "./DeleteTeam";

@@ -8,8 +8,13 @@ import {
 } from "./index";
 import { useClient } from "@src/shared/Apollo";
 import { SEARCH_PLAYER_QUERY } from "../querys";
+import { tStatePlayer } from "@src/shared/types";
 
-const mapStateToButton = (pk: number, state: tState, refetch: () => void) => {
+const mapStateToButton = (
+  pk: number,
+  state: tStatePlayer,
+  refetch: () => void
+) => {
   const config = {
     accept: (
       <>
@@ -37,5 +42,3 @@ export const playerScreen = () => {
     </SearchUsers>
   );
 };
-
-type tState = "friend" | " accept" | " notFriend" | "pending";

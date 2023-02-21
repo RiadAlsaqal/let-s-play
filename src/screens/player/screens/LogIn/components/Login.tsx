@@ -9,7 +9,7 @@ import { useAuth } from "@src/shared/Auth";
 export const Login = () => {
   const [Mutat, { data, loading, error }] =
     useMutation<TResponse>(LOGIN_MUTATION);
-  const { saveToken, Auth } = useAuth();
+  const { saveToken, handleUser } = useAuth();
   const LogInForm = withFormikForm<{}, TValue>({
     children: (props) => {
       return (
@@ -46,9 +46,21 @@ export const Login = () => {
         variables: { email, password },
       })
         .then((e) => {
+          const user = e.data?.login.user;
           saveToken?.({
             key: "token",
             value: e.data?.login?.token as string,
+          });
+          handleUser?.({
+            user: {
+              email: user?.email as string,
+              firstName: user?.firstName as string,
+              lastName: user?.lastName as string,
+
+              phone: user?.phone as number,
+              pk: user?.player.pkPlayer as number,
+              username: user?.username as string,
+            },
           });
         })
         .catch((e) => {});
@@ -73,7 +85,17 @@ type TValue = {
 type TResponse = {
   login: {
     token: string;
+    user: {
+      username: string;
+      phone: number;
+      firstName: string;
+      lastName: string;
+      email: string;
+      player: {
+        pkPlayer: number;
+      };
+    };
     success: boolean;
-    errors: string | null;
+    errors: unknown;
   };
 };

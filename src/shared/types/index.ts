@@ -5,3 +5,5 @@ export type { RouteProp } from "./Route";
 export type { RootStackNotAuthScreenProps } from "./RootStackNotAuthScreenProps";
 export type { TRootStackTeamsScreenProps } from "./RootStackTeamsScreenProps";
 export type { DropDownPickerProps } from "./TDropDown";
+export type { tStatePlayer } from "./TStatePlayer";
+export type { MD3Theme } from "./TTheme";

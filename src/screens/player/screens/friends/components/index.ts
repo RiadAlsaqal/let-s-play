@@ -2,7 +2,6 @@ export { SearchUsers } from "./searchUsers";
 export { FriendsList } from "./friendsList";
 export { ScreenFriends } from "./friends";
 export { playerScreen } from "./players";
-export { ButtonMutation } from "./ButtonMutation";
 export { ButtonInfo } from "./ButtonInfo";
 export { ButtonAdd } from "./ButtonAdd";
 export { ButtonAcceptFriend } from "./ButtonAcceptFriend";

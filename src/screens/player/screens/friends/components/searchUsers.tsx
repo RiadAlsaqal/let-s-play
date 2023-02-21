@@ -3,6 +3,7 @@ import React from "react";
 import { SearchField } from "@src/shared/components";
 import { StyleSheet, View } from "react-native";
 import { SEARCH_PLAYER_QUERY } from "../querys";
+import { tStatePlayer } from "@src/shared/types";
 import { PlayerCard } from "../../../components/PlayerCard";
 export const SearchUsers: React.FC<TProps> = ({ children, searchFriends }) => {
   const [value, setValue] = React.useState("");
@@ -48,7 +49,7 @@ type TProps = {
 };
 
 type TData = {
-  state: "friend" | " accept" | " notFriend" | "pending";
+  state: tStatePlayer;
   pkPlayer: number;
   userId: {
     firstName: string;
@@ -57,7 +58,7 @@ type TData = {
 };
 
 type TParameters = {
-  state: "friend" | " accept" | " notFriend" | "pending";
+  state: tStatePlayer;
   pk: number;
   firstName: string;
   lastName: string;

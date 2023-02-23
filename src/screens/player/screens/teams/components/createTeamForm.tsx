@@ -7,11 +7,11 @@ import {
   GET_TYPES_OF_TEAMS_QUERY,
   CREATE_TEAM_MUTATION,
   ADD_MEMBERS_TO_TEAM_MUTATION,
-  GET_FRIENDS_CAN_ADD_TO_TEAM,
 } from "../query";
 import { createTeamValidationSchema, extractFriendsFromQuery } from "../utils";
 import { SelectFriends } from "./index";
 import { useRefetchTeams } from "../hooks";
+import { GET_ALL_FRIENDS_QUERY } from "../../friends/querys";
 const extractTypes = (data: TypesResponse) => {
   let array: { label: string; value: number }[] = [];
 
@@ -22,7 +22,7 @@ const extractTypes = (data: TypesResponse) => {
 };
 const CreateTeamFormWithoutNavigation: React.FC<TProps> = ({ navigation }) => {
   const { data } = useQuery<TypesResponse>(GET_TYPES_OF_TEAMS_QUERY);
-  const { data: friends } = useQuery<TData>(GET_FRIENDS_CAN_ADD_TO_TEAM);
+  const { data: friends } = useQuery<TData>(GET_ALL_FRIENDS_QUERY);
   const [createTeam] = useMutation<TDataCreateTeam>(CREATE_TEAM_MUTATION);
   const [addMembers] = useMutation(ADD_MEMBERS_TO_TEAM_MUTATION);
   const { refetchTeams } = useRefetchTeams();
@@ -52,7 +52,7 @@ const CreateTeamFormWithoutNavigation: React.FC<TProps> = ({ navigation }) => {
             name="selectFriends"
             children={
               <SelectFriends
-                friends={extractFriendsFromQuery(friends)}
+                friends={extractFriendsFromQuery(friends?.allFriend?.data)}
                 setValue={(value) =>
                   props.setFieldValue("selectFriends", value)
                 }
@@ -125,7 +125,7 @@ type TFormValues = {
 };
 
 type TData = {
-  getFriendCanAddToTeam: {
+  allFriend: {
     data: {
       edges: {
         node: {
@@ -139,6 +139,8 @@ type TData = {
         };
       }[];
     };
+    status: number;
+    message: string;
   };
 };
 

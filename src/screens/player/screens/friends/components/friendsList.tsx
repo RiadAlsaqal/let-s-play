@@ -15,20 +15,21 @@ export const FriendsList = () => {
         ({
           node: {
             friends: {
-              userId: { firstName, lastName, pk },
+              pkPlayer,
+              userId: { firstName, lastName },
             },
           },
         }) => {
           return (
             <>
-              <PlayerCard data={{ firstName, lastName, pk }}>
+              <PlayerCard data={{ firstName, lastName, pk: pkPlayer }}>
                 <View style={style.View}>
                   <IconButton
                     onPress={() => {}}
                     mode="contained-tonal"
                     icon={() => <AntDesign size={30} name="message1" />}
                   />
-                  <ButtonInfo name={firstName + " " + lastName} pk={pk} />
+                  <ButtonInfo name={firstName + " " + lastName} pk={pkPlayer} />
                 </View>
               </PlayerCard>
             </>
@@ -45,10 +46,11 @@ type TData = {
       edges: {
         node: {
           friends: {
+            pkPlayer: number;
+
             userId: {
               firstName: string;
               lastName: string;
-              pk: number;
             };
           };
         };

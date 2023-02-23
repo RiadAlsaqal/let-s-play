@@ -6,31 +6,43 @@ import {
   TNavigation,
   tStatePlayer,
 } from "@src/shared/types";
-import { useQuery } from "@src/shared/hooks";
-import { GET_TEAM_QUERY, GET_MEMBERS_OF_TEAM_QUERY } from "../query";
+import { useQuery, useLazyQuery, useMutation } from "@src/shared/hooks";
+import {
+  GET_TEAM_QUERY,
+  GET_MEMBERS_OF_TEAM_QUERY,
+  GET_FRIENDS_CAN_ADD_TO_TEAM,
+  ADD_MEMBERS_TO_TEAM_MUTATION,
+} from "../query";
 import { withRoute, withNavigation } from "@src/shared/HOC";
 import { Avatar, IconButton } from "react-native-paper";
 import { useAuth } from "@src/shared/Auth";
 import { Images } from "../../../../../../assets/images";
 import { MyText } from "@src/shared/components";
 import { PlayerCard } from "../../../components";
-import { DeleteTeam, LeaveTeamButton } from "./index";
-
+import { DeleteTeam, LeaveTeamButton, SelectFriends } from "./index";
+import { extractFriendsFromQuery } from "../utils";
 import { flowRight } from "lodash";
 const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
   const { teamPk } = Route.params;
+  const [selectedFriendsToAdd] = React.useState();
   const { user } = useAuth();
   const { data } = useQuery<TDataTeam>(GET_TEAM_QUERY, {
     variables: {
       id: teamPk,
     },
   });
+  const [getFriendsCanAddToTeam, { data: friendsCanAddToTeam }] =
+    useLazyQuery<TDataFriendsCanAdd>(GET_FRIENDS_CAN_ADD_TO_TEAM);
+  const [addMembers] = useMutation(ADD_MEMBERS_TO_TEAM_MUTATION);
   const teamData = data?.myTeamById?.data?.edges[0]?.node;
-  const { data: members } = useQuery<TDataMembers>(GET_MEMBERS_OF_TEAM_QUERY, {
-    variables: {
-      id: teamPk,
-    },
-  });
+  const { data: members, refetch } = useQuery<TDataMembers>(
+    GET_MEMBERS_OF_TEAM_QUERY,
+    {
+      variables: {
+        id: teamPk,
+      },
+    }
+  );
   const isCaptin = (member: typeof members) => {
     const theCaptin = member?.memmberTeamById.data.edges.filter(
       (e) => e.node?.isCaptin
@@ -55,6 +67,28 @@ const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
       ) : (
         <DeleteTeam pk={teamPk} style={{ alignSelf: "flex-end" }} />
       )}
+      <SelectFriends
+        friends={extractFriendsFromQuery(
+          friendsCanAddToTeam?.getFriendCanAddToTeam?.data
+        )}
+        onDone={(checked) => {
+          addMembers({
+            variables: {
+              members: checked,
+              teamPk,
+            },
+          }).then(() => {
+            refetch();
+          });
+        }}
+        onOpen={() =>
+          getFriendsCanAddToTeam({
+            variables: {
+              teamId: teamData.pkTeam,
+            },
+          })
+        }
+      />
       <MyText style={{ alignSelf: "flex-start" }}> members:</MyText>
       <ScrollView style={style.ScrollView}>
         {members?.memmberTeamById?.data?.edges?.map(
@@ -152,5 +186,25 @@ type TDataMembers = {
         }
       ];
     };
+  };
+};
+
+type TDataFriendsCanAdd = {
+  getFriendCanAddToTeam: {
+    data: {
+      edges: {
+        node: {
+          friends: {
+            pkPlayer: number;
+            userId: {
+              firstName: string;
+              lastName: string;
+            };
+          };
+        };
+      }[];
+    };
+    status: number;
+    message: string;
   };
 };

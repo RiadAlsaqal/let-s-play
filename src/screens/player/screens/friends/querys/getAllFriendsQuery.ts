@@ -6,7 +6,6 @@ export const GET_ALL_FRIENDS_QUERY = createGqlQuery(
        data{
         edges{
           node{
-            id
             friends{
               pkPlayer
               userId{				               

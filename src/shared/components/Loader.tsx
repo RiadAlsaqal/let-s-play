@@ -15,5 +15,6 @@ const style = StyleSheet.create({
     position: "absolute",
     top: "50%",
     right: "50%",
+    zIndex: 999999,
   },
 });

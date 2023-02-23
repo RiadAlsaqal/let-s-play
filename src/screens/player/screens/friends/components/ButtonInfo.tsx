@@ -5,12 +5,12 @@ import { withNavigation } from "@src/shared/HOC";
 import { TNavigation, TRootStackFriendsScreenProps } from "@src/shared/types";
 
 const infoButton: React.FC<TProps> = ({ name, navigation, pk }) => {
+  console.log("pkkk", pk);
   return (
     <IconButton
       onPress={() => {
         navigation.navigate("playerProfile", {
           pk,
-          name,
         });
       }}
       mode="contained-tonal"

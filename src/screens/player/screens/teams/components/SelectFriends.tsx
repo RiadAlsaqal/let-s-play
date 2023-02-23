@@ -15,6 +15,8 @@ export const SelectFriends: React.FC<TProps> = ({
   friends,
   setValue,
   checkedList,
+  onDone,
+  onOpen,
 }) => {
   const [open, setOpen] = React.useState<boolean>(false);
 
@@ -36,7 +38,10 @@ export const SelectFriends: React.FC<TProps> = ({
   return (
     <ScrollView>
       <Button
-        onPress={() => setOpen(true)}
+        onPress={() => {
+          onOpen?.();
+          setOpen(true);
+        }}
         style={style.Button}
         mode="contained-tonal"
       >
@@ -77,7 +82,8 @@ export const SelectFriends: React.FC<TProps> = ({
           <Dialog.Actions>
             <Button
               onPress={() => {
-                setValue(checked);
+                checked.length > 0 && onDone?.(checked);
+                setValue?.(checked);
                 setOpen(false);
               }}
             >
@@ -115,8 +121,10 @@ const style = StyleSheet.create({
 
 type TProps = {
   friends: Friends;
-  setValue: (values: unknown) => void;
+  setValue?: (values: unknown) => void;
   checkedList?: number[];
+  onDone?: (checked: number[]) => void;
+  onOpen?: () => void;
 };
 
 type Friends = Friend[];

@@ -15,7 +15,7 @@ const Card: React.FC<TProps> = ({
     <Surface style={style.View}>
       <Image source={img ?? Images.defaultImage} style={style.Image} />
       <View style={style.View2}>
-        <MyText style={style.Text}>{firstName}</MyText>
+        <MyText style={style.Text}>{firstName} </MyText>
         <MyText style={style.Text}>{lastName}</MyText>
       </View>
       {children}
@@ -48,7 +48,6 @@ const style = StyleSheet.create({
     flexDirection: "row",
     margin: 2,
     alignItems: "center",
-    justifyContent: "space-between",
     height: 75,
     width: "40%",
   },

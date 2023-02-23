@@ -14,7 +14,8 @@ import { useAuth } from "@src/shared/Auth";
 import { Images } from "../../../../../../assets/images";
 import { MyText } from "@src/shared/components";
 import { PlayerCard } from "../../../components";
-import { DeleteTeam } from "./index";
+import { DeleteTeam, LeaveTeamButton } from "./index";
+
 import { flowRight } from "lodash";
 const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
   const { teamPk } = Route.params;
@@ -24,7 +25,7 @@ const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
       id: teamPk,
     },
   });
-
+  const teamData = data?.myTeamById?.data?.edges[0]?.node;
   const { data: members } = useQuery<TDataMembers>(GET_MEMBERS_OF_TEAM_QUERY, {
     variables: {
       id: teamPk,
@@ -32,26 +33,31 @@ const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
   });
   const isCaptin = (member: typeof members) => {
     const theCaptin = member?.memmberTeamById.data.edges.filter(
-      (e) => e.node.isCaptin
+      (e) => e.node?.isCaptin
     );
-    console.log(
-      "me",
-      user?.user?.pk,
-      "cap",
-      theCaptin?.[0].node.member.pkPlayer
-    );
-    return user?.user?.pk === theCaptin?.[0].node.member.pkPlayer;
+
+    return user?.user?.pk === theCaptin?.[0].node?.member?.pkPlayer;
   };
-  return (
+  return !!teamData ? (
     <View style={style.View}>
       <View style={style.imageNameView}>
-        <Avatar.Image source={Images.defaultImage} />
-        <MyText>{data?.myTeamById.data.edges[0].node.name}</MyText>
+        <Avatar.Image source={Images.defaultImage} style={{ margin: 10 }} />
+        <View>
+          <MyText>{teamData?.name}</MyText>
+
+          <MyText variant="labelSmall">
+            {teamData?.memberCount + "members"}
+          </MyText>
+        </View>
       </View>
-      {isCaptin(members) && <DeleteTeam pk={teamPk} />}
+      {isCaptin(members) === false ? (
+        <LeaveTeamButton teamPk={teamPk} />
+      ) : (
+        <DeleteTeam pk={teamPk} style={{ alignSelf: "flex-end" }} />
+      )}
       <MyText style={{ alignSelf: "flex-start" }}> members:</MyText>
       <ScrollView style={style.ScrollView}>
-        {members?.memmberTeamById.data.edges.map(
+        {members?.memmberTeamById?.data?.edges?.map(
           ({
             node: {
               isCaptin,
@@ -65,21 +71,23 @@ const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
             <PlayerCard data={{ firstName, lastName, pk: pkPlayer }}>
               {isCaptin && <MyText> Captin</MyText>}
 
-              <IconButton
-                icon="arrow-right"
-                onPress={() =>
-                  navigation.navigate("playerProfile", {
-                    name: firstName + " " + lastName,
-                    pk: pkPlayer,
-                    state,
-                  })
-                }
-              />
+              {user?.user?.pk !== pkPlayer && (
+                <IconButton
+                  icon="arrow-right"
+                  onPress={() =>
+                    navigation.navigate("playerProfile", {
+                      pk: pkPlayer,
+                    })
+                  }
+                />
+              )}
             </PlayerCard>
           )
         )}
       </ScrollView>
     </View>
+  ) : (
+    <></>
   );
 };
 export const TeamProfile = flowRight(
@@ -88,14 +96,14 @@ export const TeamProfile = flowRight(
 )(TeamProfileWithoutRoute);
 const style = StyleSheet.create({
   View: {
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
     marginTop: 20,
     width: "100%",
   },
   imageNameView: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "flex-start",
     width: "100%",
     alignItems: "center",
   },

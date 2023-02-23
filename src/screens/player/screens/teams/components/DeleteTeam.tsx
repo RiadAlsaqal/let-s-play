@@ -9,19 +9,24 @@ import { withNavigation, withTheme } from "@src/shared/HOC";
 import { DELETE_TEAM_MUTATION } from "../query";
 import { ButtonMutation } from "@src/shared/components";
 import { useRefetchTeams } from "../hooks";
-const DeleteTeamWithout: React.FC<TProps> = ({ navigation, theme, pk }) => {
+import { TButtonProps } from "@src/shared/components";
+const DeleteTeamWithout: React.FC<TProps> = ({
+  navigation,
+  theme,
+  pk,
+  ...props
+}) => {
   const { refetchTeams } = useRefetchTeams();
-  const handleOnDelete = () => {
-    refetchTeams();
-    navigation.goBack();
-  };
+
   return (
     <ButtonMutation
+      {...props}
+      icon="trash-can"
       query={{
         Mutation: DELETE_TEAM_MUTATION,
         Options: {
           variables: { pk },
-          onCompleted: handleOnDelete,
+          onCompleted: refetchTeams,
         },
       }}
       buttonColor={theme.colors.error}
@@ -36,4 +41,4 @@ type TProps = {
   navigation: TNavigation<TRootStackTeamsScreenProps>;
   theme: MD3Theme;
   pk: number;
-};
+} & Omit<TButtonProps, "theme" | "children">;

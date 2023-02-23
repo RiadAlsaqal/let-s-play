@@ -8,9 +8,6 @@ export type TRootStackFriendsScreenProps = {
   };
   playerProfile: {
     pk: number;
-    name: string;
-    img?: string;
-    state: tStatePlayer;
   };
 };
 

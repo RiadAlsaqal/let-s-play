@@ -1,20 +1,33 @@
 import React from "react";
-import { ButtonMutation } from "@src/shared/components";
+import { ButtonMutation, MyText } from "@src/shared/components";
 import { REJECT_FRIEND_MUTATION } from "../querys";
-export const ButtonRejectFriend: React.FC<TProps> = ({ pk, refetch }) => {
+import { withTheme } from "@src/shared/HOC";
+import { MD3Theme } from "@src/shared/types";
+const ButtonRejectFriendWithout: React.FC<TProps> = ({
+  pk,
+  refetch,
+  theme,
+  text,
+}) => {
+  console.log("theme", theme);
   return (
     <ButtonMutation
+      icon="trash-can"
+      buttonColor={theme.colors.error}
       query={{
         Mutation: REJECT_FRIEND_MUTATION,
         Options: { variables: { playerPk: pk }, onCompleted: refetch },
       }}
     >
-      reject
+      <MyText style={{ color: theme.colors.onPrimary }}>{text}</MyText>
     </ButtonMutation>
   );
 };
+export const ButtonRejectFriend = withTheme(ButtonRejectFriendWithout);
 
 type TProps = {
   pk: number;
   refetch: () => void;
+  theme: MD3Theme;
+  text: string;
 };

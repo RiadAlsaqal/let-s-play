@@ -8,7 +8,10 @@ const Tab = createBottomTabNavigator();
 
 export const AuthScreens = () => {
   return (
-    <Tab.Navigator initialRouteName="teams">
+    <Tab.Navigator
+      initialRouteName="teams"
+      screenOptions={{ headerShown: false }}
+    >
       <Tab.Screen
         name="Setting"
         component={ScreenSetting}

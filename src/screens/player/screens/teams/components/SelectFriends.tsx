@@ -50,16 +50,16 @@ export const SelectFriends: React.FC<TProps> = ({
               friendsList.map((friend) => (
                 <TouchableOpacity
                   onPress={() =>
-                    includes(checked, friend.pkFriend)
-                      ? handleUnCheck(friend.pkFriend)
-                      : handleCheck(friend.pkFriend)
+                    includes(checked, friend.pkPlayer)
+                      ? handleUnCheck(friend.pkPlayer)
+                      : handleCheck(friend.pkPlayer)
                   }
                   style={{
                     ...style.ViewTicker,
-                    borderBottomColor: includes(checked, friend.pkFriend)
+                    borderBottomColor: includes(checked, friend.pkPlayer)
                       ? "rgb(0, 104, 123)"
                       : "black",
-                    borderBottomWidth: includes(checked, friend.pkFriend)
+                    borderBottomWidth: includes(checked, friend.pkPlayer)
                       ? 4
                       : 0,
                   }}
@@ -124,6 +124,6 @@ type Friends = Friend[];
 type Friend = {
   firstName: string;
   lastName: string;
-  pkFriend: number;
+  pkPlayer: number;
   img?: string;
 };

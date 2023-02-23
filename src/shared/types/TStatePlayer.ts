@@ -1,1 +1,6 @@
-export type tStatePlayer = "friend" | "accept" | "notFriend" | "pending";
+export type tStatePlayer =
+  | "friend"
+  | "accept"
+  | "notFriend"
+  | "pending"
+  | "self";

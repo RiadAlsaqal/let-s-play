@@ -1,14 +1,14 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
+import { StyleSheet, SafeAreaView } from "react-native";
 import { Navigator } from "./src/navigation";
 export default function Index() {
   return (
-    <>
+    <SafeAreaView style={{ height: "96.2%", marginTop: 30 }}>
       <StatusBar style="auto" />
 
       <Navigator />
-    </>
+    </SafeAreaView>
   );
 }
 

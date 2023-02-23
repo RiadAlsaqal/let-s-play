@@ -7,10 +7,10 @@ import {
   GET_TYPES_OF_TEAMS_QUERY,
   CREATE_TEAM_MUTATION,
   ADD_MEMBERS_TO_TEAM_MUTATION,
+  GET_FRIENDS_CAN_ADD_TO_TEAM,
 } from "../query";
 import { createTeamValidationSchema, extractFriendsFromQuery } from "../utils";
 import { SelectFriends } from "./index";
-import { GET_ALL_FRIENDS_QUERY } from "../../friends/querys";
 import { useRefetchTeams } from "../hooks";
 const extractTypes = (data: TypesResponse) => {
   let array: { label: string; value: number }[] = [];
@@ -22,7 +22,7 @@ const extractTypes = (data: TypesResponse) => {
 };
 const CreateTeamFormWithoutNavigation: React.FC<TProps> = ({ navigation }) => {
   const { data } = useQuery<TypesResponse>(GET_TYPES_OF_TEAMS_QUERY);
-  const { data: friends } = useQuery<TData>(GET_ALL_FRIENDS_QUERY);
+  const { data: friends } = useQuery<TData>(GET_FRIENDS_CAN_ADD_TO_TEAM);
   const [createTeam] = useMutation<TDataCreateTeam>(CREATE_TEAM_MUTATION);
   const [addMembers] = useMutation(ADD_MEMBERS_TO_TEAM_MUTATION);
   const { refetchTeams } = useRefetchTeams();
@@ -125,12 +125,12 @@ type TFormValues = {
 };
 
 type TData = {
-  allFriend: {
+  getFriendCanAddToTeam: {
     data: {
       edges: {
         node: {
-          pkFriend: number;
           friends: {
+            pkPlayer: number;
             userId: {
               firstName: string;
               lastName: string;
@@ -145,8 +145,8 @@ type TData = {
 type TDataCreateTeam = {
   createTeam: {
     data: {
-      name: "lala";
-      pkTeam: 3;
+      name: string;
+      pkTeam: number;
     };
   };
 };

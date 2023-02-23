@@ -1,27 +1,27 @@
 export const extractFriendsFromQuery = (query: TData) => {
   let friends: NewTypeFriend[] = [];
-  query.allFriend.data.edges.map(
+  query.getFriendCanAddToTeam.data.edges.map(
     ({
       node: {
-        pkFriend,
         friends: {
+          pkPlayer,
           userId: { firstName, lastName },
         },
       },
     }) => {
-      friends = [...friends, { firstName, lastName, pkFriend }];
+      friends = [...friends, { firstName, lastName, pkPlayer }];
     }
   );
   return friends;
 };
 
 type TData = {
-  allFriend: {
+  getFriendCanAddToTeam: {
     data: {
       edges: {
         node: {
-          pkFriend: number;
           friends: {
+            pkPlayer: number;
             userId: TFriend;
           };
         };
@@ -38,5 +38,5 @@ type TFriend = {
 type NewTypeFriend = {
   firstName: string;
   lastName: string;
-  pkFriend: number;
+  pkPlayer: number;
 };

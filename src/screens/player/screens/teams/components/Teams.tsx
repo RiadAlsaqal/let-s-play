@@ -6,6 +6,7 @@ import { useQuery } from "@src/shared/hooks";
 import { TeamCard } from "./index";
 import { GET_MY_TEAMS_QUERY } from "../query";
 import { Divider } from "react-native-paper";
+import { ScrollView } from "react-native-gesture-handler";
 const TeamsWithoutNavigation: React.FC<TProps> = ({ navigation }) => {
   const { data, error } = useQuery<TData>(GET_MY_TEAMS_QUERY);
   return (
@@ -13,31 +14,32 @@ const TeamsWithoutNavigation: React.FC<TProps> = ({ navigation }) => {
       <Button
         onPress={() => navigation.navigate("createTeam")}
         mode="outlined"
-        style={{ alignSelf: "center", borderRadius: 0 }}
+        style={{ alignSelf: "center", borderRadius: 0, marginTop: 20 }}
       >
         create team
       </Button>
-
-      {data?.myAllTeam?.data?.edges.map(
-        ({
-          node: {
-            name,
-            pkTeam,
-            type_: { name: typeName },
-          },
-        }) => (
-          <>
-            <TeamCard
-              data={{
-                name: name,
-                teamPk: pkTeam,
-                typeName: typeName,
-              }}
-            />
-            <Divider />
-          </>
-        )
-      )}
+      <ScrollView>
+        {data?.myAllTeam?.data?.edges.map(
+          ({
+            node: {
+              name,
+              pkTeam,
+              type_: { name: typeName },
+            },
+          }) => (
+            <>
+              <TeamCard
+                data={{
+                  name: name,
+                  teamPk: pkTeam,
+                  typeName: typeName,
+                }}
+              />
+              <Divider />
+            </>
+          )
+        )}
+      </ScrollView>
     </>
   );
 };

@@ -11,7 +11,7 @@ const Stack = createStackNavigator<TRootStackTeamsScreenProps>();
 
 export const TeamsScreenNavigation = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="teams" component={Teams} />
       <Stack.Screen name="createTeam" component={CreateTeamForm} />
       <Stack.Screen name="teamProfle" component={TeamProfile} />

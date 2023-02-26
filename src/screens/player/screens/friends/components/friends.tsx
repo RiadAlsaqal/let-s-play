@@ -18,9 +18,9 @@ const Friends: React.FC<TProps> = ({ navigation }) => {
       }}
     >
       <SearchUsers searchFriends={true}>
-        {({ firstName, lastName, pk }) => (
-          <ButtonInfo name={firstName + " " + lastName} pk={pk} />
-        )}
+        {({ firstName, lastName, pk }) => {
+          return <ButtonInfo name={firstName + " " + lastName} pk={pk} />;
+        }}
       </SearchUsers>
       <Button
         mode="outlined"

@@ -35,7 +35,7 @@ export const playerScreen = () => {
   };
 
   return (
-    <SearchUsers searchFriends={false}>
+    <SearchUsers searchFriends={undefined}>
       {({ firstName, lastName, pk, state }) => {
         return mapStateToButton(pk, state, refetch);
       }}

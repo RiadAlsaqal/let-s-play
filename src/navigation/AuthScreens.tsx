@@ -1,4 +1,5 @@
 import React from "react";
+import { IconButton } from "react-native-paper";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ScreenSetting } from "@src/screens/player/screens/Settings";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -13,12 +14,32 @@ const TabBottmNavigation = () => (
     initialRouteName="Clubs"
     screenOptions={{ headerShown: false }}
   >
-    <Tab.Screen name="friends" component={FridendsScreenNavigation} />
-    <Tab.Screen name="teams" component={TeamsScreenNavigation} />
+    <Tab.Screen
+      name="friends"
+      component={FridendsScreenNavigation}
+      options={{
+        tabBarIcon: ({ color }) => (
+          <IconButton icon="account" iconColor={color} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="teams"
+      component={TeamsScreenNavigation}
+      options={{
+        tabBarIcon: ({ color }) => (
+          <IconButton icon="account-group" iconColor={color} />
+        ),
+      }}
+    />
     <Tab.Screen
       name="Clubs"
       component={ClubsScreenNavigation}
-      options={{ tabBarBadge: 3 }}
+      options={{
+        tabBarIcon: ({ color }) => (
+          <IconButton icon="stadium-variant" iconColor={color} />
+        ),
+      }}
     />
   </Tab.Navigator>
 );

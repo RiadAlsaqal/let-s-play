@@ -14,7 +14,6 @@ const Clubs: React.FC<TProps> = ({ navigation }) => {
   const [getClubs] = useLazyQuery<TDataAllClubs>(GET_CLUBS);
 
   const clubsData = data?.AllClub.data.edges;
-  console.log("cluubs", clubsData);
   return (
     <View>
       <Button

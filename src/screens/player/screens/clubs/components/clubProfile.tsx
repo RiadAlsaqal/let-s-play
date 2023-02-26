@@ -26,7 +26,6 @@ const ClubProfilePure: React.FC<TProps> = ({ Route, navigation }) => {
 
   const ClubData = data?.getClubById.data.edges?.[0].node;
   const StadumsData = data?.stadiumFilter.data.edges;
-  console.log("staa", StadumsData);
   return (
     <View>
       <ClubCard
@@ -34,22 +33,27 @@ const ClubProfilePure: React.FC<TProps> = ({ Route, navigation }) => {
         numberStad={ClubData?.numberStad as number}
       />
       <MyText variant="headlineMedium"> stadiums :</MyText>
-      <ScrollView>
-        {StadumsData?.map(({ node }) => (
-          <>
-            <StadiumCard data={node}>
-              <ArrowButton
-                onPress={() => {
-                  navigation.navigate("stadiumProfile", {
-                    pk: node.pkStadium,
-                  });
-                }}
-              />
-            </StadiumCard>
-            <Divider />
-          </>
-        ))}
-      </ScrollView>
+
+      {StadumsData && StadumsData?.length > 0 ? (
+        <ScrollView>
+          {StadumsData?.map(({ node }) => (
+            <>
+              <StadiumCard data={node}>
+                <ArrowButton
+                  onPress={() => {
+                    navigation.navigate("stadiumProfile", {
+                      pk: node.pkStadium,
+                    });
+                  }}
+                />
+              </StadiumCard>
+              <Divider />
+            </>
+          ))}
+        </ScrollView>
+      ) : (
+        <MyText> there is no stadiums at this moment</MyText>
+      )}
     </View>
   );
 };

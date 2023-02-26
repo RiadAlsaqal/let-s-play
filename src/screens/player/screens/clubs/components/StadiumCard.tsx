@@ -21,10 +21,7 @@ export const StadiumCardPure: React.FC<TProps> = ({
         <MyText variant="labelLarge"> {name}</MyText>
         <MyText variant="labelSmall"> size: {size} players</MyText>
       </View>
-      <Tooltip
-        title={isAvailable ? "available" : "not Available"}
-        enterTouchDelay={2 * 1000}
-      >
+      <Tooltip title={isAvailable ? "available" : "not Available"}>
         <IconButton
           size={25}
           icon={isAvailable ? "check" : "close"}

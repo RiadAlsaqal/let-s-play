@@ -51,7 +51,6 @@ const User: React.FC<Tprops> = ({ Route }) => {
   const handleRefetchFriends = () => {
     client.refetchQueries({ include: ["getAllFriends"] });
   };
-  console.log("data", userData, pk);
   return (
     <View style={style.View}>
       <Image style={style.Image} source={Images.defaultImage} />

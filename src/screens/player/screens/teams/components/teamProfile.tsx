@@ -60,7 +60,6 @@ const TeamProfileWithoutRoute: React.FC<TProps> = ({
     }
   );
   const handleOnLongPress = (memberToDelete: number) => {
-    console.log(isMe(memberToDelete));
     if (!isMe(memberToDelete)) {
       setMemberToRemove([memberToDelete]);
       setOpenDialog(true);

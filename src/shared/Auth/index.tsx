@@ -57,7 +57,6 @@ export const AuthProvider = ({
   }, []);
   const checkIfLogin = async () => {
     let userToken = await getToken("token");
-    console.log("token", userToken);
     if (!!userToken) handleAuth(true);
     else {
       handleAuth(false);
@@ -75,7 +74,6 @@ export const AuthProvider = ({
     checkIfLogin();
     auth === true &&
       getMyProfile().then((e) => {
-        console.log("here");
         const user = e.data?.playerMe.data.edges[0].node;
         handleUser({
           user: {

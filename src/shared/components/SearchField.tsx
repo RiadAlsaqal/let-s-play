@@ -3,13 +3,7 @@ import { ScrollView } from "react-native";
 import { Searchbar, SearchbarProps, useTheme } from "react-native-paper";
 import { TResponse, tStatePlayer } from "../types";
 import { useDebouncer, useLazyQuery } from "../hooks";
-import {
-  DocumentNode,
-  LazyQueryHookOptions,
-  OperationVariables,
-  TypedDocumentNode,
-} from "@apollo/client";
-
+import { TQuery } from "@src/shared/types";
 const Search = <
   QueryPath1 extends string,
   QueryPath2 extends string,
@@ -61,10 +55,6 @@ type TSearch<QueryPath2 extends string, TData> = Omit<
   children: TChildren;
 };
 
-type TQuery = {
-  query: DocumentNode | TypedDocumentNode<any, OperationVariables>;
-  queryOptions?: LazyQueryHookOptions;
-};
 type TChildren = (props: {
   node: {
     state: tStatePlayer;

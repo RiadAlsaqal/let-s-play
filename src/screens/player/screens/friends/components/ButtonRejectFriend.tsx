@@ -9,7 +9,6 @@ const ButtonRejectFriendWithout: React.FC<TProps> = ({
   theme,
   text,
 }) => {
-  console.log("theme", theme);
   return (
     <ButtonMutation
       icon="trash-can"

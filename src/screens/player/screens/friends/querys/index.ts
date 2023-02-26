@@ -5,3 +5,4 @@ export { GET_FRIEND_QUERY } from "./getFriendQuery";
 export { ACCEPT_FRIEND_MUTATION } from "./acceptFriendMutation";
 export { REJECT_FRIEND_MUTATION } from "./rejectFriendMutation";
 export { FIND_PLAYER_ON_MAP } from "./findPlayerOnMapQuery";
+export { SEARCH_FRIEND_QUERY } from "./searchFriendQuery";

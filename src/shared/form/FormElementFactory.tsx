@@ -10,7 +10,7 @@ import {
   TDatePickerProps,
   TTextFiledProps,
 } from "./types";
-import { DropDownPickerProps, MD3Theme } from "../types";
+import { DropDownPickerProps, MD3Theme, TLocation } from "../types";
 import { MapView, Button, TextInput, DropDown } from "../components";
 import * as ImagePicker from "expo-image-picker";
 const ErrorMessage = ({ meta, theme }: TErrorMessage) => (
@@ -136,11 +136,4 @@ type TFormElementFactory<T extends TElements> = {
   elementProps?: getElementType<T>;
   containerProps?: ViewProps;
   children?: React.ReactElement;
-};
-
-type TLocation = {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
 };

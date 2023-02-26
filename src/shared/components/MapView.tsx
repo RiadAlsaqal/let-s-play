@@ -3,6 +3,7 @@ import MapView, { Marker } from "react-native-maps";
 import { StyleSheet, View } from "react-native";
 import { Button, Dialog, Portal, useTheme } from "react-native-paper";
 import { useMyLocation } from "../hooks";
+import { TLocation } from "@src/shared/types";
 export const Map: React.FC<TMapView> = ({ setLocation }) => {
   const [open, setOpen] = useState(false);
   const [chose, setChose] = useState<true | null | false>(null);
@@ -99,11 +100,4 @@ const styles = StyleSheet.create({
 
 type TMapView = {
   setLocation: (location: TLocation) => void;
-};
-
-type TLocation = {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
 };

@@ -11,7 +11,10 @@ const Stack = createStackNavigator<TRootStackFriendsScreenProps>();
 
 export const FridendsScreenNavigation = () => {
   return (
-    <Stack.Navigator initialRouteName="Friends">
+    <Stack.Navigator
+      initialRouteName="Friends"
+      screenOptions={{ headerShown: false }}
+    >
       <Stack.Screen name="players" component={playerScreen} />
       <Stack.Screen name="Friends" component={ScreenFriends} />
       <Stack.Screen name="findPlayerOnMap" component={FindPlayerOnMap} />

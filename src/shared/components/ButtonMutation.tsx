@@ -6,7 +6,7 @@ export const ButtonMutation: React.FC<TProps> = ({
   children,
   ...props
 }) => {
-  const [mutation, { data }] = useMutation(Mutation);
+  const [mutation] = useMutation(Mutation);
   return (
     <Button {...props} onPress={() => mutation(Options)}>
       {children}

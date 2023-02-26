@@ -18,7 +18,7 @@ const mapStateToButton = (
   const config = {
     accept: (
       <>
-        <ButtonRejectFriend pk={pk} refetch={refetch} />
+        <ButtonRejectFriend pk={pk} refetch={refetch} text="reject" />
         <ButtonAcceptFriend pk={pk} refetch={refetch} />
       </>
     ),

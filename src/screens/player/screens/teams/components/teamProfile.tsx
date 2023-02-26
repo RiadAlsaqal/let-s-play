@@ -5,26 +5,38 @@ import {
   TRootStackTeamsScreenProps,
   TNavigation,
   tStatePlayer,
+  MD3Theme,
 } from "@src/shared/types";
 import { useQuery, useLazyQuery, useMutation } from "@src/shared/hooks";
+import { withRoute, withNavigation, withTheme } from "@src/shared/HOC";
+import { useAuth } from "@src/shared/Auth";
+import { Button, MyText } from "@src/shared/components";
+import { Avatar, IconButton } from "react-native-paper";
 import {
   GET_TEAM_QUERY,
   GET_MEMBERS_OF_TEAM_QUERY,
   GET_FRIENDS_CAN_ADD_TO_TEAM,
   ADD_MEMBERS_TO_TEAM_MUTATION,
+  REMOVE_MEMBER_MUTATION,
 } from "../query";
-import { withRoute, withNavigation } from "@src/shared/HOC";
-import { Avatar, IconButton } from "react-native-paper";
-import { useAuth } from "@src/shared/Auth";
 import { Images } from "../../../../../../assets/images";
-import { MyText } from "@src/shared/components";
 import { PlayerCard } from "../../../components";
-import { DeleteTeam, LeaveTeamButton, SelectFriends } from "./index";
+import {
+  DeleteTeam,
+  LeaveTeamButton,
+  SelectFriends,
+  LongPressDialog,
+} from "./index";
 import { extractFriendsFromQuery } from "../utils";
 import { flowRight } from "lodash";
-const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
+const TeamProfileWithoutRoute: React.FC<TProps> = ({
+  Route,
+  navigation,
+  theme,
+}) => {
   const { teamPk } = Route.params;
-  const [selectedFriendsToAdd] = React.useState();
+  const [memberToRemove, setMemberToRemove] = React.useState<number[]>();
+  const [openDialog, setOpenDialog] = React.useState<boolean>(false);
   const { user } = useAuth();
   const { data } = useQuery<TDataTeam>(GET_TEAM_QUERY, {
     variables: {
@@ -32,7 +44,11 @@ const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
     },
   });
   const [getFriendsCanAddToTeam, { data: friendsCanAddToTeam }] =
-    useLazyQuery<TDataFriendsCanAdd>(GET_FRIENDS_CAN_ADD_TO_TEAM);
+    useLazyQuery<TDataFriendsCanAdd>(GET_FRIENDS_CAN_ADD_TO_TEAM, {
+      defaultOptions: {
+        fetchPolicy: "no-cache",
+      },
+    });
   const [addMembers] = useMutation(ADD_MEMBERS_TO_TEAM_MUTATION);
   const teamData = data?.myTeamById?.data?.edges[0]?.node;
   const { data: members, refetch } = useQuery<TDataMembers>(
@@ -43,12 +59,27 @@ const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
       },
     }
   );
-  const isCaptin = (member: typeof members) => {
+  const handleOnLongPress = (memberToDelete: number) => {
+    console.log(isMe(memberToDelete));
+    if (!isMe(memberToDelete)) {
+      setMemberToRemove([memberToDelete]);
+      setOpenDialog(true);
+    }
+  };
+  const handelOnDismiss = () => {
+    setOpenDialog(false);
+    setMemberToRemove(undefined);
+  };
+  const [deleteMember] = useMutation(REMOVE_MEMBER_MUTATION);
+  const isCaptin = ((member: typeof members) => {
     const theCaptin = member?.memmberTeamById.data.edges.filter(
       (e) => e.node?.isCaptin
     );
 
     return user?.user?.pk === theCaptin?.[0].node?.member?.pkPlayer;
+  })(members);
+  const isMe = (pk: number) => {
+    return pk === user?.user?.pk;
   };
   return !!teamData ? (
     <View style={style.View}>
@@ -62,34 +93,44 @@ const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
           </MyText>
         </View>
       </View>
-      {isCaptin(members) === false ? (
-        <LeaveTeamButton teamPk={teamPk} />
-      ) : (
-        <DeleteTeam pk={teamPk} style={{ alignSelf: "flex-end" }} />
-      )}
-      <SelectFriends
-        friends={extractFriendsFromQuery(
-          friendsCanAddToTeam?.getFriendCanAddToTeam?.data
-        )}
-        onDone={(checked) => {
-          addMembers({
-            variables: {
-              members: checked,
-              teamPk,
-            },
-          }).then(() => {
-            refetch();
-          });
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          width: "100%",
         }}
-        onOpen={() =>
-          getFriendsCanAddToTeam({
-            variables: {
-              teamId: teamData.pkTeam,
-            },
-          })
-        }
-      />
-      <MyText style={{ alignSelf: "flex-start" }}> members:</MyText>
+      >
+        {isCaptin === false ? (
+          <LeaveTeamButton teamPk={teamPk} />
+        ) : (
+          <DeleteTeam pk={teamPk} style={{ alignSelf: "center" }} />
+        )}
+        <SelectFriends
+          friends={extractFriendsFromQuery(
+            friendsCanAddToTeam?.getFriendCanAddToTeam?.data
+          )}
+          onDone={(checked) => {
+            addMembers({
+              variables: {
+                members: checked,
+                teamPk,
+              },
+            }).then(() => {
+              refetch();
+            });
+          }}
+          onOpen={() =>
+            getFriendsCanAddToTeam({
+              variables: {
+                teamId: teamData.pkTeam,
+              },
+            })
+          }
+        />
+      </View>
+      <MyText style={{ alignSelf: "flex-start" }} variant="headlineLarge">
+        members:
+      </MyText>
       <ScrollView style={style.ScrollView}>
         {members?.memmberTeamById?.data?.edges?.map(
           ({
@@ -102,7 +143,10 @@ const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
               },
             },
           }) => (
-            <PlayerCard data={{ firstName, lastName, pk: pkPlayer }}>
+            <PlayerCard
+              data={{ firstName, lastName, pk: pkPlayer }}
+              onLongPress={() => handleOnLongPress(pkPlayer)}
+            >
               {isCaptin && <MyText> Captin</MyText>}
 
               {user?.user?.pk !== pkPlayer && (
@@ -119,6 +163,32 @@ const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
           )
         )}
       </ScrollView>
+      {isCaptin && (
+        <LongPressDialog open={openDialog} onDismiss={handelOnDismiss}>
+          <Button
+            style={{
+              borderRadius: 0,
+              width: "100%",
+            }}
+            icon="trash-can"
+            buttonColor="inherit"
+            textColor={theme.colors.error}
+            onPress={() => {
+              deleteMember({
+                variables: {
+                  members: memberToRemove,
+                  teamPk,
+                },
+                onCompleted: () => {
+                  refetch();
+                  handelOnDismiss();
+                },
+              });
+            }}
+            children="delete member"
+          />
+        </LongPressDialog>
+      )}
     </View>
   ) : (
     <></>
@@ -126,7 +196,8 @@ const TeamProfileWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
 };
 export const TeamProfile = flowRight(
   withNavigation,
-  withRoute
+  withRoute,
+  withTheme
 )(TeamProfileWithoutRoute);
 const style = StyleSheet.create({
   View: {
@@ -149,6 +220,7 @@ const style = StyleSheet.create({
 type TProps = {
   Route: RouteProp<TRootStackTeamsScreenProps, "teamProfle">;
   navigation: TNavigation<TRootStackTeamsScreenProps>;
+  theme: MD3Theme;
 };
 
 type TDataTeam = {

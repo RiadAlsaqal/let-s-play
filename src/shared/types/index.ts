@@ -4,6 +4,9 @@ export type { TRootStackFriendsScreenProps } from "./RootStackFriendsScreenProps
 export type { RouteProp } from "./Route";
 export type { RootStackNotAuthScreenProps } from "./RootStackNotAuthScreenProps";
 export type { TRootStackTeamsScreenProps } from "./RootStackTeamsScreenProps";
+export type { TRootStackClubsProps } from "./RootStackClubsProps";
 export type { DropDownPickerProps } from "./TDropDown";
 export type { tStatePlayer } from "./TStatePlayer";
 export type { MD3Theme } from "./TTheme";
+export type { TLocation } from "./TLocation";
+export type { TGame } from "./TGames";

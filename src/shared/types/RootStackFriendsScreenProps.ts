@@ -1,5 +1,5 @@
 import { tStatePlayer } from "./TStatePlayer";
-
+import { TLocation } from "./TLocation";
 export type TRootStackFriendsScreenProps = {
   Friends: undefined;
   players: undefined;
@@ -9,11 +9,4 @@ export type TRootStackFriendsScreenProps = {
   playerProfile: {
     pk: number;
   };
-};
-
-type TLocation = {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
 };

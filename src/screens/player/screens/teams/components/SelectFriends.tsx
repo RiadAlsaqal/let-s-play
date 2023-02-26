@@ -50,33 +50,42 @@ export const SelectFriends: React.FC<TProps> = ({
       <Portal>
         <Dialog visible={open} onDismiss={() => setOpen(false)}>
           <Dialog.Title>add friends</Dialog.Title>
-          <Dialog.Content style={style.View}>
-            {friendsList.length > 0 ? (
-              friendsList.map((friend) => (
-                <TouchableOpacity
-                  onPress={() =>
-                    includes(checked, friend.pkPlayer)
-                      ? handleUnCheck(friend.pkPlayer)
-                      : handleCheck(friend.pkPlayer)
-                  }
-                  style={{
-                    ...style.ViewTicker,
-                    borderBottomColor: includes(checked, friend.pkPlayer)
-                      ? "rgb(0, 104, 123)"
-                      : "black",
-                    borderBottomWidth: includes(checked, friend.pkPlayer)
-                      ? 4
-                      : 0,
-                  }}
-                >
-                  <View>
-                    <Image source={Images.defaultImage} style={style.Image} />
-                    <MyText> {friend.firstName + " " + friend.lastName}</MyText>
-                  </View>
-                </TouchableOpacity>
-              ))
-            ) : (
-              <MyText>there is no friends</MyText>
+          <Dialog.Content>
+            <View style={style.View}>
+              {friendsList.length > 0 ? (
+                friendsList.map((friend) => (
+                  <TouchableOpacity
+                    onPress={() =>
+                      includes(checked, friend.pkPlayer)
+                        ? handleUnCheck(friend.pkPlayer)
+                        : handleCheck(friend.pkPlayer)
+                    }
+                    style={{
+                      ...style.ViewTicker,
+                      borderBottomColor: includes(checked, friend.pkPlayer)
+                        ? "rgb(0, 104, 123)"
+                        : "black",
+                      borderBottomWidth: includes(checked, friend.pkPlayer)
+                        ? 4
+                        : 0,
+                    }}
+                  >
+                    <View>
+                      <Image source={Images.defaultImage} style={style.Image} />
+                      <MyText>
+                        {friend.firstName + " " + friend.lastName}
+                      </MyText>
+                    </View>
+                  </TouchableOpacity>
+                ))
+              ) : (
+                <MyText>there is no friends</MyText>
+              )}
+            </View>
+            {checked.length > 0 && (
+              <MyText style={{ alignSelf: "center" }}>
+                {checked.length} friend selected
+              </MyText>
             )}
           </Dialog.Content>
           <Dialog.Actions>
@@ -92,9 +101,6 @@ export const SelectFriends: React.FC<TProps> = ({
           </Dialog.Actions>
         </Dialog>
       </Portal>
-      {checked.length > 0 && (
-        <MyText> {checked.length} friend selected </MyText>
-      )}
     </ScrollView>
   );
 };

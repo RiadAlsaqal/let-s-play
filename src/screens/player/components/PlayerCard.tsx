@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import { MyText, Button } from "@src/shared/components";
 import { Images } from "../../../../assets/images";
 import { Surface } from "react-native-paper";
@@ -10,16 +10,19 @@ const Card: React.FC<TProps> = ({
   data: { firstName, lastName, pk, img },
   theme,
   children,
+  onLongPress,
 }) => {
   return (
-    <Surface style={style.View}>
-      <Image source={img ?? Images.defaultImage} style={style.Image} />
-      <View style={style.View2}>
-        <MyText style={style.Text}>{firstName} </MyText>
-        <MyText style={style.Text}>{lastName}</MyText>
-      </View>
-      {children}
-    </Surface>
+    <TouchableOpacity onLongPress={onLongPress}>
+      <Surface style={style.View}>
+        <Image source={img ?? Images.defaultImage} style={style.Image} />
+        <View style={style.View2}>
+          <MyText style={style.Text}>{firstName} </MyText>
+          <MyText style={style.Text}>{lastName}</MyText>
+        </View>
+        {children}
+      </Surface>
+    </TouchableOpacity>
   );
 };
 export const PlayerCard = withTheme(Card);
@@ -28,6 +31,7 @@ type TProps = {
   data: TData;
   theme: MD3Theme;
   children?: React.ReactNode;
+  onLongPress?: () => void;
 };
 
 type TData = {

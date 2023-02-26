@@ -7,6 +7,7 @@ import { TNavigation, TRootStackFriendsScreenProps } from "@src/shared/types";
 import { FontAwesome } from "@expo/vector-icons";
 import { ButtonInfo } from "./index";
 import { useMyLocation } from "@src/shared/hooks";
+import { TLocation } from "@src/shared/types";
 const Friends: React.FC<TProps> = ({ navigation }) => {
   const { getMyLocatiopn } = useMyLocation();
 
@@ -58,10 +59,4 @@ const style = StyleSheet.create({
 
 type TProps = {
   navigation: TNavigation<TRootStackFriendsScreenProps>;
-};
-type TLocation = {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
 };

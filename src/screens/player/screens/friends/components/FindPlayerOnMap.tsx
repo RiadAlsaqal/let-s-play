@@ -1,16 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { Circle, Marker } from "react-native-maps";
-import { withRoute } from "@src/shared/HOC";
+import { withRoute, withNavigation } from "@src/shared/HOC";
 import {
   RouteProp,
   TRootStackFriendsScreenProps,
   tStatePlayer,
+  TNavigation,
+  TLocation,
 } from "@src/shared/types";
 import { Button } from "@src/shared/components";
 import { useLazyQuery } from "@src/shared/hooks";
 import { FIND_PLAYER_ON_MAP } from "../querys";
-export const PlayersOnMap: React.FC<TProps> = ({ Route }) => {
+export const PlayersOnMap: React.FC<TProps> = ({ Route, navigation }) => {
   const { myLocation } = Route.params;
   const [location, setLocation] = useState(myLocation);
   const [getPlayers, { data }] = useLazyQuery<TResponse>(FIND_PLAYER_ON_MAP);
@@ -32,11 +34,16 @@ export const PlayersOnMap: React.FC<TProps> = ({ Route }) => {
           fillColor="rgba(239,144,144,.1)"
         />
         {data?.findPlayerOnMap.data.edges.map(
-          ({ node: { locationLat, locationLong } }) => (
+          ({ node: { locationLat, locationLong, pkPlayer } }) => (
             <Marker
               coordinate={{
                 latitude: Number(locationLat),
                 longitude: Number(locationLong),
+              }}
+              onPress={() => {
+                navigation.navigate("playerProfile", {
+                  pk: pkPlayer,
+                });
               }}
             />
           )
@@ -71,15 +78,9 @@ const style = StyleSheet.create({
   },
 });
 
-type TLocation = {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
-};
-
 type TProps = {
   Route: RouteProp<TRootStackFriendsScreenProps, "findPlayerOnMap">;
+  navigation: TNavigation<TRootStackFriendsScreenProps>;
 };
 
 type TResponse = {

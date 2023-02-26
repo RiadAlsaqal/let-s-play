@@ -5,3 +5,4 @@ export { TeamCard } from "./teamCard";
 export { TeamProfile } from "./teamProfile";
 export { DeleteTeam } from "./DeleteTeam";
 export { LeaveTeamButton } from "./LeaveTeamButton";
+export { LongPressDialog } from "./LongPressDialog";

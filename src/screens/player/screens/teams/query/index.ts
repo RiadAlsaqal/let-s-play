@@ -7,3 +7,4 @@ export { GET_MEMBERS_OF_TEAM_QUERY } from "./getMembersOfTeamQuery";
 export { DELETE_TEAM_MUTATION } from "./deleteTeamMutation";
 export { GET_FRIENDS_CAN_ADD_TO_TEAM } from "./getFriendsCanAddToTeam";
 export { LEAVE_TEAM_MUTATION } from "./leaveTeamMutation";
+export { REMOVE_MEMBER_MUTATION } from "./removeMemberMutation";

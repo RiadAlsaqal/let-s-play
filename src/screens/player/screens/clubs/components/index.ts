@@ -4,3 +4,4 @@ export { ClubCard } from "./ClubCard";
 export { ClubProfile } from "./clubProfile";
 export { StadiumCard } from "./StadiumCard";
 export { ArrowButton } from "./ArrowButton";
+export { StadiumProfile } from "./StadiumProfile";

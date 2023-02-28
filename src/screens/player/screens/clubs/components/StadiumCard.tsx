@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import { TGame, MD3Theme } from "@src/shared/types";
 import { MyText } from "@src/shared/components";
 import { withTheme } from "@src/shared/HOC";
@@ -11,9 +11,10 @@ export const StadiumCardPure: React.FC<TProps> = ({
   data: { hasLegua, isAvailable, name, pkStadium, size, type_ },
   theme,
   children,
+  styleView,
 }) => {
   return (
-    <View style={style.mainVieW}>
+    <View style={{ ...style.mainVieW, ...styleView }}>
       <Avatar.Image
         source={gamesImage[type_?.name as TGame] as AvatarImageSource}
       />
@@ -39,6 +40,7 @@ type TProps = {
   data: TStadium;
   theme: MD3Theme;
   children?: React.ReactElement;
+  styleView?: ViewStyle;
 };
 const style = StyleSheet.create({
   mainVieW: {

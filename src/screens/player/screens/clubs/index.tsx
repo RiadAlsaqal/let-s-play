@@ -1,1 +1,6 @@
-export { ClubsMap, ClubsScreen, ClubProfile } from "./components";
+export {
+  ClubsMap,
+  ClubsScreen,
+  ClubProfile,
+  StadiumProfile,
+} from "./components";

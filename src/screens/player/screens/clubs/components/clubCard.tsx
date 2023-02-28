@@ -1,7 +1,7 @@
 import React from "react";
-import { Image, StyleSheet, View, ImageBackground } from "react-native";
+import { Image, StyleSheet, View, ImageBackground, Text } from "react-native";
 import { Images } from "../../../../../../assets/images";
-import { Avatar } from "react-native-paper";
+import { Avatar, Tooltip } from "react-native-paper";
 import { MyText } from "@src/shared/components";
 export const ClubCard: React.FC<TProps> = ({ name, numberStad, children }) => {
   return (
@@ -26,7 +26,11 @@ export const ClubCard: React.FC<TProps> = ({ name, numberStad, children }) => {
       >
         <Avatar.Image source={Images.clubsImage} />
         <View>
-          <MyText variant="headlineMedium"> {name}</MyText>
+          <Tooltip title={name}>
+            <Text style={{ fontSize: 25 }}>
+              {name && name.length > 14 ? name.substring(0, 11) + "..." : name}
+            </Text>
+          </Tooltip>
           <MyText variant="labelSmall"> {numberStad} stadiums</MyText>
         </View>
       </View>

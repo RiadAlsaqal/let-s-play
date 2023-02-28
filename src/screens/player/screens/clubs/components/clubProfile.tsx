@@ -7,7 +7,7 @@ import {
   TNavigation,
 } from "@src/shared/types";
 import { withRoute, withNavigation } from "@src/shared/HOC";
-import { ClubCard } from "./ClubCard";
+import { ClubCard } from "./clubCard";
 import { GET_CLUB } from "../query";
 import { TDataClub } from "../types";
 import { ArrowButton } from "./index";
@@ -35,7 +35,7 @@ const ClubProfilePure: React.FC<TProps> = ({ Route, navigation }) => {
       <MyText variant="headlineMedium"> stadiums :</MyText>
 
       {StadumsData && StadumsData?.length > 0 ? (
-        <ScrollView>
+        <ScrollView style={{ height: "80%" }}>
           {StadumsData?.map(({ node }) => (
             <>
               <StadiumCard data={node}>

@@ -7,7 +7,7 @@ import {
   TNavigation,
 } from "@src/shared/types";
 import { withRoute, withNavigation } from "@src/shared/HOC";
-import { ClubCard } from "./clubCard";
+import { ClubCard } from "./index";
 import { GET_CLUB } from "../query";
 import { TDataClub } from "../types";
 import { ArrowButton } from "./index";

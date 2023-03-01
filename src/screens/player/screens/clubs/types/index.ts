@@ -52,3 +52,23 @@ export type TDataClub = {
   getClubById: TGetClubById;
   stadiumFilter: TStadiumFilter;
 };
+
+export type TDuration = {
+  node: {
+    price: number;
+    startTime: string;
+    endTime: string;
+    pkDuration: number;
+    available: boolean;
+  };
+};
+
+export type TDutationData = {
+  avaliableDurationByStadium: {
+    data: {
+      edges: TDuration[];
+    };
+    status: number;
+    message: string;
+  };
+};

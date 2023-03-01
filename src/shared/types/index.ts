@@ -11,3 +11,4 @@ export type { MD3Theme } from "./TTheme";
 export type { TLocation } from "./TLocation";
 export type { TGame } from "./TGames";
 export type { TQuery } from "./TQuery";
+export type { TRootStackSettingsScreenProps } from "./RootStackSettingsScreenProps";

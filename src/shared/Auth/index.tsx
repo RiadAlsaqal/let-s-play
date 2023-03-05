@@ -21,11 +21,11 @@ export const AuthProvider = ({
   children: React.ReactElement;
 }) => {
   const [auth, setAuth] = React.useState<TAuth>("loading");
-  const [user, setUser] = React.useState<TUser>();
+  const [user, setUser] = React.useState<TUser & { balance: number }>();
   const [getMyProfile, { data }] = useLazyQuery<TData>(GET_MY_PROFILE_QUERY);
   const handleAuth = (state: boolean) => setAuth(state);
-  const handleUser = (user: TUser) => {
-    setUser(user);
+  const handleUser = (user: TUser, balance: number) => {
+    setUser({ ...user, balance });
   };
 
   const saveToken = useCallback(
@@ -36,7 +36,6 @@ export const AuthProvider = ({
           return true;
         })
         .catch((e) => {
-          console.log("error", e);
           return false;
         });
     },
@@ -58,7 +57,7 @@ export const AuthProvider = ({
   }, []);
   const checkIfLogin = async () => {
     let userToken = await getToken("token");
-    console.log("token", userToken);
+    console.log("auth", userToken);
     if (!!userToken) handleAuth(true);
     else {
       handleAuth(false);
@@ -77,16 +76,19 @@ export const AuthProvider = ({
     auth === true &&
       getMyProfile().then((e) => {
         const user = e.data?.playerMe.data.edges[0].node;
-        handleUser({
-          user: {
-            email: user?.userId.email as string,
-            firstName: user?.userId.firstName as string,
-            lastName: user?.userId.lastName as string,
-            phone: user?.userId.phone as number,
-            pk: user?.pkPlayer as number,
-            username: user?.userId.username as string,
+        handleUser(
+          {
+            user: {
+              email: user?.userId.email as string,
+              firstName: user?.userId.firstName as string,
+              lastName: user?.userId.lastName as string,
+              phone: user?.userId.phone as number,
+              pk: user?.pkPlayer as number,
+              username: user?.userId.username as string,
+            },
           },
-        });
+          user?.balance as number
+        );
       });
   }, [auth]);
   return (
@@ -116,9 +118,8 @@ const GET_MY_PROFILE_QUERY = createGqlQuery(
             firstName
             lastName
             email
-            
           }
-            
+          balance
           }
         }
       }
@@ -140,8 +141,8 @@ type TAuthContext = {
   }) => Promise<boolean>;
 
   deleteToken?: () => Promise<boolean>;
-  user?: TUser;
-  handleUser?: (user: TUser) => void;
+  user?: TUser & { balance: number };
+  handleUser?: (user: TUser, balance: number) => void;
 };
 type TUser = {
   user?: {
@@ -167,6 +168,7 @@ type TData = {
             lastName: string;
             email: string;
           };
+          balance: number;
         };
       }[];
     };

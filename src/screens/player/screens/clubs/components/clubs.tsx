@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { Button } from "@src/shared/components";
 import { withNavigation } from "@src/shared/HOC";
 import { TNavigation, TRootStackClubsProps } from "@src/shared/types";
@@ -35,42 +35,48 @@ const Clubs: React.FC<TProps> = ({ navigation }) => {
       >
         make reservation
       </Button>
-      <ScrollView style={{ marginTop: 10 }}>
-        {clubsData?.map(
-          ({
-            node: {
-              name,
-              numberStad,
-              pkClub,
-              locationLat,
-              locationLong,
-              isAvailable,
-            },
-          }) => (
-            <ClubCard name={name} numberStad={numberStad}>
-              <>
-                <IconButton
-                  icon="map-marker-radius"
-                  onPress={() => {
-                    navigation.navigate("clubsMap", {
-                      data: [{ node: { locationLat, locationLong, pkClub } }],
-                    });
-                  }}
-                  size={40}
-                />
-                <ArrowButton
-                  onPress={() => {
-                    navigation.navigate("clubProfile", {
-                      pk: pkClub,
-                    });
-                  }}
-                />
-              </>
-            </ClubCard>
-          )
-        )}
-        <Divider />
-      </ScrollView>
+      <View>
+        <SafeAreaView>
+          <ScrollView style={{ marginTop: 10, marginBottom: 200 }}>
+            {clubsData?.map(
+              ({
+                node: {
+                  name,
+                  numberStad,
+                  pkClub,
+                  locationLat,
+                  locationLong,
+                  isAvailable,
+                },
+              }) => (
+                <ClubCard name={name} numberStad={numberStad}>
+                  <>
+                    <IconButton
+                      icon="map-marker-radius"
+                      onPress={() => {
+                        navigation.navigate("clubsMap", {
+                          data: [
+                            { node: { locationLat, locationLong, pkClub } },
+                          ],
+                        });
+                      }}
+                      size={40}
+                    />
+                    <ArrowButton
+                      onPress={() => {
+                        navigation.navigate("clubProfile", {
+                          pk: pkClub,
+                        });
+                      }}
+                    />
+                  </>
+                </ClubCard>
+              )
+            )}
+            <Divider />
+          </ScrollView>
+        </SafeAreaView>
+      </View>
     </View>
   );
 };

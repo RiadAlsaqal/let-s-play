@@ -14,7 +14,7 @@ export type TNotificatio = {
     senderId: {
       username: string;
     };
-    teamId: {
+    teamId?: {
       name: string;
       type_: {
         name: string;
@@ -22,7 +22,7 @@ export type TNotificatio = {
       };
     };
     senderKind: string;
-    type: string;
+    type: "REQUEST_FRIEND" | "ACCEPT_FIEND" | "GROUP_MESSAGE";
     content: string;
     date: string;
   };

@@ -17,12 +17,18 @@ export const SearchUsers: React.FC<TProps> = ({ children, searchFriends }) => {
     data: choseType<typeof searchFriends>
   ): TData => {
     if (FriendSearch) {
+      console.log("if", data);
+
       return {
-        pkPlayer: (data as TFriend).node.friends.pkPlayer,
-        state: (data as TFriend).node.friends.state,
-        userId: (data as TFriend).node.friends.userId,
+        node: {
+          pkPlayer: (data as TFriend).node.friends.pkPlayer,
+          state: (data as TFriend).node.friends.state,
+          userId: (data as TFriend).node.friends.userId,
+        },
       };
     } else {
+      console.log("else", data);
+
       return data as TData;
     }
   };
@@ -50,12 +56,23 @@ export const SearchUsers: React.FC<TProps> = ({ children, searchFriends }) => {
           },
         }}
       >
-        {(data) => {
+        {(a) => {
+          console.log(
+            "one",
+            extractData(searchFriends, { a } as unknown as TData | TFriend)
+          );
           const {
+            node: {
+              pkPlayer,
+              state,
+              userId: { firstName, lastName },
+            },
+          } = extractData(searchFriends, a as unknown as TData | TFriend);
+          console.log("tow", {
             pkPlayer,
             state,
             userId: { firstName, lastName },
-          } = extractData(searchFriends, data as unknown as TData | TFriend);
+          });
           return (
             <PlayerCard data={{ firstName, lastName, pk: pkPlayer }}>
               <>
@@ -79,11 +96,13 @@ type TProps = {
 };
 
 type TData = {
-  state: tStatePlayer;
-  pkPlayer: number;
-  userId: {
-    firstName: string;
-    lastName: string;
+  node: {
+    state: tStatePlayer;
+    pkPlayer: number;
+    userId: {
+      firstName: string;
+      lastName: string;
+    };
   };
 };
 

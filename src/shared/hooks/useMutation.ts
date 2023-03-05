@@ -33,7 +33,6 @@ export function useMutation<
   )[0]?.[1] as string;
 
   if (result[1].loading) {
-    console.log("lolol");
     handleLoading?.(true);
     !status && setStatus(true);
   }

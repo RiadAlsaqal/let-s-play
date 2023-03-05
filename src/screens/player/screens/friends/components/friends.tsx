@@ -44,6 +44,14 @@ const Friends: React.FC<TProps> = ({ navigation }) => {
       >
         find player on map
       </Button>
+      <Button
+        icon="account-multiple-plus"
+        onPress={() => {
+          navigation.navigate("friendsRequest");
+        }}
+      >
+        friends requist
+      </Button>
       <FriendsList />
     </ScrollView>
   );

@@ -210,7 +210,6 @@ const ReservatePure: React.FC<TProps> = ({ navigation }) => {
                   <IconButton
                     icon="map-marker-radius"
                     onPress={() => {
-                      console.log("wwww", node);
                       navigation.navigate("clubsMap", {
                         data: [
                           {

@@ -44,6 +44,7 @@ export const HeaderComponent: React.FC<TProps> = ({
         <IconButton
           icon="bell"
           onPress={() => {
+            noti?.readNotification?.();
             navigation.navigate("notif");
           }}
         />

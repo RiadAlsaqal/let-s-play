@@ -4,6 +4,7 @@ import {
   ScreenFriends,
   playerScreen,
   FindPlayerOnMap,
+  FriendsRequistList,
 } from "@src/screens/player/screens/friends";
 import { playerProfile } from "@src/screens/player/components";
 import { TRootStackFriendsScreenProps } from "@src/shared/types";
@@ -19,6 +20,7 @@ export const FridendsScreenNavigation = () => {
       <Stack.Screen name="Friends" component={ScreenFriends} />
       <Stack.Screen name="findPlayerOnMap" component={FindPlayerOnMap} />
       <Stack.Screen name="playerProfile" component={playerProfile} />
+      <Stack.Screen name="friendsRequest" component={FriendsRequistList} />
     </Stack.Navigator>
   );
 };

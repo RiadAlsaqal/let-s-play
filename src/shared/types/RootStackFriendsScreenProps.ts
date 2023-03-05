@@ -9,4 +9,5 @@ export type TRootStackFriendsScreenProps = {
   playerProfile: {
     pk: number;
   };
+  friendsRequest: undefined;
 };

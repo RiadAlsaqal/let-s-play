@@ -118,7 +118,6 @@ const StadiumProfilePure: React.FC<TProps> = ({ Route, theme, navigation }) => {
       },
       2: () => {
         if (actor || actor === null) {
-          console.log("actor", actor);
           setOrder(3);
           ref.current?.scrollTo(3);
           handleClearError();

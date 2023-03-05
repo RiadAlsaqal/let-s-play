@@ -36,7 +36,6 @@ const ClubsMapWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
     );
   };
   useEffect(() => goToMyLocation(), []);
-  console.log("cluluuu", data);
   return (
     <View style={style.View}>
       <MapView style={style.map} ref={ref1}>

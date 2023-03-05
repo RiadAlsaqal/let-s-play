@@ -1,5 +1,6 @@
 import { MyText } from "@src/shared/components";
 import { TGame, TNotificatio } from "@src/shared/types";
+import moment from "moment";
 import React from "react";
 import { View } from "react-native";
 import { Avatar, Surface } from "react-native-paper";
@@ -11,23 +12,25 @@ export const NotifecationCard: React.FC<TNotificatio> = ({
     date,
     senderId: { username },
     senderKind,
-    teamId: {
-      name,
-      type_: { name: gameName, pkType },
-    },
+    teamId,
     type,
   },
 }) => {
+  const time = moment(date).format("DD/MM/YYYY : h:mma");
   return (
-    <View>
-      <Surface>
+    <View style={{ marginTop: 10 }}>
+      <Surface elevation={5}>
         <View style={{ flexDirection: "row" }}>
-          <Avatar.Image
-            source={gamesImage[gameName as TGame] as AvatarImageSource}
-          />
-          <MyText>{content}</MyText>
+          {teamId?.type_.name && (
+            <Avatar.Image
+              source={
+                gamesImage[teamId?.type_.name as TGame] as AvatarImageSource
+              }
+            />
+          )}
+          <MyText variant="headlineMedium">{content}</MyText>
         </View>
-        <MyText>{date}</MyText>
+        <MyText style={{ marginLeft: 10, color: "gray" }}>{time}</MyText>
       </Surface>
     </View>
   );

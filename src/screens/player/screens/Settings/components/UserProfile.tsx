@@ -14,7 +14,7 @@ import { MyText } from "@src/shared/components";
 export const UserProfile = () => {
   const { user: data } = useAuth();
   const user = data?.user;
-  console.log("user", user);
+  const balance = data?.balance;
   return (
     <View style={style.View}>
       {user?.pk && (
@@ -30,6 +30,7 @@ export const UserProfile = () => {
             </MyText>
             <MyText variant="labelLarge">username: {user.username}</MyText>
             <MyText variant="labelLarge">email: {user.email}</MyText>
+            <MyText variant="labelLarge">balance: {balance} SP</MyText>
           </View>
         </View>
       )}

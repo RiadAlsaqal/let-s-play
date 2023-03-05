@@ -10,6 +10,7 @@ export const ClubCard: React.FC<TProps> = ({ name, numberStad, children }) => {
         flexDirection: "row",
         justifyContent: "space-between",
         height: 100,
+        margin: 5,
       }}
     >
       <Image

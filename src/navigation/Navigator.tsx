@@ -6,6 +6,5 @@ import { Loader } from "@src/shared/components";
 export const Navigator = () => {
   const { Auth } = useAuth();
   if (Auth === "loading") return <Loader />;
-  console.log("auth", Auth);
   return Auth ? <AuthScreens /> : <NotAuthScreen />;
 };

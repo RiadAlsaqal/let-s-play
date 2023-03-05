@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "5year",
-    "slug": "5year",
+    "name": "ATHILTIC",
+    "slug": "athiltic",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -12,7 +12,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/011fad44-3e89-4b5d-84e1-2be3f9885448"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -24,10 +25,20 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.riad.alsaqal.athiltic"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "011fad44-3e89-4b5d-84e1-2be3f9885448"
+      }
+    },
+    "owner": "riad.alsaqal",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }

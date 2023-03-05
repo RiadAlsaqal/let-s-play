@@ -7,20 +7,24 @@ const ErrorBoundryContext = createContext<TErrorBoundryContext>(undefined);
 const SnackbarWithTheme = withTheme(Snackbar);
 
 export const ErrorBoundryProvider: React.FC<TErrorBoundry> = ({ children }) => {
-  const [error, setError] = useState<TErrorBoundeyState>(undefined);
+  const [message, setMessage] = useState<TErrorBoundeyState>(undefined);
 
   const handleOnDismiss = () => {
-    setError(undefined);
+    setMessage(undefined);
   };
   const handelSetError = useCallback((error: string) => {
-    setError(error);
+    setMessage(error);
   }, []);
 
   return (
     <ErrorBoundryContext.Provider value={handelSetError}>
       {children}
-      <SnackbarWithTheme visible={!!error} onDismiss={handleOnDismiss}>
-        {error as string}
+      <SnackbarWithTheme
+        visible={!!message}
+        onDismiss={handleOnDismiss}
+        duration={3 * 1000}
+      >
+        {message as string}
       </SnackbarWithTheme>
     </ErrorBoundryContext.Provider>
   );

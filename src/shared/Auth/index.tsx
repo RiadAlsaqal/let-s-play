@@ -36,6 +36,7 @@ export const AuthProvider = ({
           return true;
         })
         .catch((e) => {
+          console.log("error", e);
           return false;
         });
     },
@@ -57,6 +58,7 @@ export const AuthProvider = ({
   }, []);
   const checkIfLogin = async () => {
     let userToken = await getToken("token");
+    console.log("token", userToken);
     if (!!userToken) handleAuth(true);
     else {
       handleAuth(false);

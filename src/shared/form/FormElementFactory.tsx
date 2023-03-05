@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, ViewProps, Image } from "react-native";
+import { StyleSheet, View, ViewProps, Image, ImageStore } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { Field, FieldMetaProps, FieldProps } from "formik";
 import { DatePicker } from "./index";
@@ -13,6 +13,7 @@ import {
 import { DropDownPickerProps, MD3Theme, TLocation } from "../types";
 import { MapView, Button, TextInput, DropDown } from "../components";
 import * as ImagePicker from "expo-image-picker";
+import { ReactNativeFile } from "apollo-upload-client";
 const ErrorMessage = ({ meta, theme }: TErrorMessage) => (
   <>
     {meta.touched && meta.error && (
@@ -34,14 +35,12 @@ const ElementFactory = <T extends TElements>({
   const handleChangeLocation = (location: TLocation) => {
     FieldProps.form.setFieldValue(FieldProps.field.name, location);
   };
-  const handleChoceImage = (img: ImagePicker.ImagePickerResult) => {
-    const formData = new FormData();
-    formData.append("picture", {
-      uri: img.assets![0].uri,
-      type: img.assets![0].type,
-      name: img.assets![0].fileName,
-    } as any);
-
+  const handleChoceImage = async (img: ImagePicker.ImagePickerResult) => {
+    const formData = new ReactNativeFile({
+      uri: img?.assets?.[0].uri as string,
+      name: "hi",
+      type: img?.assets?.[0].type as string,
+    });
     FieldProps.form.setFieldValue(FieldProps.field.name, formData);
   };
   const element: Record<TElements, React.ReactElement> = {
@@ -70,11 +69,13 @@ const ElementFactory = <T extends TElements>({
         <Image />
         <Button
           onPress={async () => {
-            const image = await ImagePicker.launchImageLibraryAsync({
-              mediaTypes: ImagePicker.MediaTypeOptions.All,
+            let result = await ImagePicker.launchImageLibraryAsync({
+              mediaTypes: ImagePicker.MediaTypeOptions.Images,
+              quality: 0.1,
               base64: true,
             });
-            handleChoceImage(image);
+
+            handleChoceImage(result);
           }}
         >
           pick photo

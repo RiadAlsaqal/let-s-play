@@ -12,3 +12,10 @@ export type { TLocation } from "./TLocation";
 export type { TGame } from "./TGames";
 export type { TQuery } from "./TQuery";
 export type { TRootStackSettingsScreenProps } from "./RootStackSettingsScreenProps";
+export type {
+  TNotificatio,
+  TNotificationData,
+  TChecKNoti,
+} from "./TNotification";
+export type { TRootStackReservationScreenProps } from "./RootStackReservationScreenProps";
+export type { TSTackReservation } from "./TReservationStack";

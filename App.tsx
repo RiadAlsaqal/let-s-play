@@ -14,6 +14,7 @@ import { AuthProvider } from "./src/shared/Auth";
 import { ApolloProvider } from "./src/shared/Apollo";
 import { LoadingProvider } from "./src/shared/Loading";
 import { ErrorBoundryProvider } from "./src/shared/ErrorBoundry";
+import { NotificationProvider } from "./src/shared/Notification";
 const theme = {
   ...DefaultTheme,
   colors: colors,
@@ -26,9 +27,11 @@ export default function App() {
         <ApolloProvider>
           <AuthProvider>
             <LoadingProvider>
-              <NavigationContainer>
-                <Index />
-              </NavigationContainer>
+              <NotificationProvider>
+                <NavigationContainer>
+                  <Index />
+                </NavigationContainer>
+              </NotificationProvider>
             </LoadingProvider>
           </AuthProvider>
         </ApolloProvider>

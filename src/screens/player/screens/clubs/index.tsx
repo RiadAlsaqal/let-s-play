@@ -1,6 +1,6 @@
 export {
-  ClubsMap,
   ClubsScreen,
   ClubProfile,
   StadiumProfile,
+  Reservate,
 } from "./components";

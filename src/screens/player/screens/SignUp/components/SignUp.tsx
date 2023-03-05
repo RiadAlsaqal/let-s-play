@@ -7,10 +7,9 @@ import { FormElementFactory, withFormikForm } from "@src/shared/form";
 import { LOGIN_MUTATION } from "../../LogIn/querys";
 import { useAuth } from "@src/shared/Auth";
 export const SignUp = () => {
-  const [Mutat, { data, loading, error }] = useMutation(SIGNUP_MUTATION);
+  const [Mutat] = useMutation(SIGNUP_MUTATION);
   const [logIn, { data: logInData }] = useMutation(LOGIN_MUTATION);
-  const { saveToken, Auth } = useAuth();
-
+  const { saveToken } = useAuth();
   const Form = withFormikForm<{}, TValues>({
     children: (props) => {
       return (
@@ -78,6 +77,7 @@ export const SignUp = () => {
           email,
           phone,
           password,
+          picture: Image,
         },
       })
         .then(() =>
@@ -97,12 +97,12 @@ export const SignUp = () => {
     },
     validationSchema: SignupValidationSchema,
     mapPropsToValues: (props) => ({
-      firstName: "",
-      lastName: "",
-      email: "",
+      firstName: "riad",
+      lastName: "al",
+      email: "riad@asd.asdad",
       DatePicker: new Date(),
       MapView: undefined,
-      password: "",
+      password: "123",
       phone: 0,
       Image: undefined,
     }),
@@ -125,7 +125,7 @@ type TValues = {
   DatePicker: Date;
   MapView: TLocation | undefined;
   phone: number;
-  Image?: FormData;
+  Image?: any;
 };
 
 type TLocation = {

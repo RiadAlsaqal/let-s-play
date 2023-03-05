@@ -11,4 +11,5 @@ export type TRootStackClubsProps = {
   stadiumProfile: {
     pk: number;
   };
+  reservation: undefined;
 };

@@ -13,7 +13,6 @@ export const StadiumCardPure: React.FC<TProps> = ({
   children,
   styleView,
 }) => {
-  console.log("adsa", { hasLegua, isAvailable, name, pkStadium, size, type_ });
   return (
     <View style={{ ...style.mainVieW, ...styleView }}>
       <Avatar.Image

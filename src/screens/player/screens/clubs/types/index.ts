@@ -28,12 +28,14 @@ type TGetClubById = {
   status: number;
 };
 export type TStadiumFilter = {
-  data: {
-    edges: {
-      node: TStadium;
-    }[];
-    status: number;
-    message: string;
+  stadiumFilter: {
+    data: {
+      edges: {
+        node: TStadium;
+      }[];
+      status: number;
+      message: string;
+    };
   };
 };
 export type TDataAllClubs = {
@@ -50,8 +52,7 @@ export type TDataAllClubs = {
 
 export type TDataClub = {
   getClubById: TGetClubById;
-  stadiumFilter: TStadiumFilter;
-};
+} & TStadiumFilter;
 
 export type TDuration = {
   node: {

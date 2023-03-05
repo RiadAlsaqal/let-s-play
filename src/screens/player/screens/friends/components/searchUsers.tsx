@@ -16,7 +16,6 @@ export const SearchUsers: React.FC<TProps> = ({ children, searchFriends }) => {
     FriendSearch: true | undefined,
     data: choseType<typeof searchFriends>
   ): TData => {
-    console.log("friend", FriendSearch, data);
     if (FriendSearch) {
       return {
         pkPlayer: (data as TFriend).node.friends.pkPlayer,

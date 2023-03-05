@@ -1,17 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { useQuery } from "@src/shared/hooks";
-import { GET_CLUBS } from "../query";
+
 import { withNavigation, withRoute } from "@src/shared/HOC";
 import {
   TNavigation,
   RouteProp,
-  TLocation,
   TRootStackClubsProps,
 } from "@src/shared/types";
 import { kMToLatitudes, kMToLongitudes } from "@src/shared/utils";
-import { TClube } from "../types";
 import { flowRight } from "lodash";
 const ClubsMapWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
   const { data } = Route.params;
@@ -39,6 +36,7 @@ const ClubsMapWithoutRoute: React.FC<TProps> = ({ Route, navigation }) => {
     );
   };
   useEffect(() => goToMyLocation(), []);
+  console.log("cluluuu", data);
   return (
     <View style={style.View}>
       <MapView style={style.map} ref={ref1}>

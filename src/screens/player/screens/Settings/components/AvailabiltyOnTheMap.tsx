@@ -6,7 +6,8 @@ import { StyleSheet, View } from "react-native";
 export const AvailabiltyOnTheMap = () => {
   const { data, refetch } = useQuery<TResponse>(MY_DATA_QUERY);
   const [change] = useMutation(AVAILABLE_ON_MAP);
-  const isAvailableOnMap = data?.playerMe.data.edges[0].node.availableOnMap;
+  const isAvailableOnMap =
+    data?.playerMe?.data?.edges?.[0]?.node?.availableOnMap;
   const onChange = () => {
     change().then(() => refetch());
   };

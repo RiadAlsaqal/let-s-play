@@ -4,11 +4,12 @@ import { TNavigation, TRootStackTeamsScreenProps } from "@src/shared/types";
 import { withNavigation } from "@src/shared/HOC";
 import { useQuery } from "@src/shared/hooks";
 import { TeamCard } from "./index";
-import { GET_MY_TEAMS_QUERY } from "../query";
+import { GET_MY_TEAMS_QUERY } from "../../../queries";
+import { TMyAllTeam } from "../../../types";
 import { Divider } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 const TeamsWithoutNavigation: React.FC<TProps> = ({ navigation }) => {
-  const { data, error } = useQuery<TData>(GET_MY_TEAMS_QUERY);
+  const { data, error } = useQuery<TMyAllTeam>(GET_MY_TEAMS_QUERY);
   return (
     <>
       <Button
@@ -47,20 +48,4 @@ const TeamsWithoutNavigation: React.FC<TProps> = ({ navigation }) => {
 export const Teams = withNavigation(TeamsWithoutNavigation);
 type TProps = {
   navigation: TNavigation<TRootStackTeamsScreenProps>;
-};
-
-type TData = {
-  myAllTeam: {
-    data: {
-      edges: {
-        node: {
-          name: string;
-          pkTeam: number;
-          type_: {
-            name: string;
-          };
-        };
-      }[];
-    };
-  };
 };

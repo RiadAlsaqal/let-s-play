@@ -27,7 +27,14 @@ const Clubs: React.FC<TProps> = ({ navigation }) => {
       >
         find clubs on map
       </Button>
-
+      <Button
+        style={{ marginTop: 10 }}
+        onPress={() => {
+          navigation.navigate("reservation");
+        }}
+      >
+        make reservation
+      </Button>
       <ScrollView style={{ marginTop: 10 }}>
         {clubsData?.map(
           ({

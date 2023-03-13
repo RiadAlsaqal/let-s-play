@@ -12,7 +12,7 @@ export function useQuery<TData = any, TVariables = OperationVariables>(
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
   options?: QueryHookOptions<TData, TVariables>
 ): QueryResult<TData, TVariables> {
-  const result = useApolloQuery(query, options);
+  const result = useApolloQuery(query, { ...options, fetchPolicy: "no-cache" });
   const { handleLoading } = useHandleLoading();
 
   if (result.loading) {

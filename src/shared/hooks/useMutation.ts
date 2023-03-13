@@ -21,7 +21,10 @@ export function useMutation<
   mutation: DocumentNode | TypedDocumentNode<TData, TVariables>,
   options?: MutationHookOptions<TData, TVariables, TContext, TCache>
 ): MutationTuple<TData, TVariables, TContext, TCache> {
-  const result = useApolloMutation(mutation, options);
+  const result = useApolloMutation(mutation, {
+    ...options,
+    fetchPolicy: "no-cache",
+  });
   const [status, setStatus] = React.useState(false);
   const { handleLoading } = useHandleLoading();
   const setMessage = useErrorBoundry();

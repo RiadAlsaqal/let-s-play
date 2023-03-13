@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
 import { Button } from "@src/shared/components";
 import { withNavigation } from "@src/shared/HOC";
@@ -7,13 +7,23 @@ import { useQuery, useLazyQuery } from "@src/shared/hooks";
 import { ClubCard, ArrowButton } from "../components";
 import { GET_CLUBS } from "../query";
 import { TClube, TDataAllClubs } from "../types";
-import { ScrollView } from "react-native-gesture-handler";
+import { RefreshControl, ScrollView } from "react-native-gesture-handler";
 import { Divider, IconButton } from "react-native-paper";
 const Clubs: React.FC<TProps> = ({ navigation }) => {
-  const { data } = useQuery<TDataAllClubs>(GET_CLUBS);
+  const { data, refetch } = useQuery<TDataAllClubs>(GET_CLUBS);
   const [getClubs] = useLazyQuery<TDataAllClubs>(GET_CLUBS);
+  const [refreshing, setRefreshing] = React.useState(false);
 
+  const refresh = () => {
+    refetch().then(() => {
+      setRefreshing(false);
+    });
+    setRefreshing;
+  };
   const clubsData = data?.AllClub.data.edges;
+  useEffect(() => {
+    refetch();
+  });
   return (
     <View>
       <Button
@@ -37,7 +47,12 @@ const Clubs: React.FC<TProps> = ({ navigation }) => {
       </Button>
       <View>
         <SafeAreaView>
-          <ScrollView style={{ marginTop: 10, marginBottom: 200 }}>
+          <ScrollView
+            style={{ marginTop: 10, marginBottom: 200 }}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+            }
+          >
             {clubsData?.map(
               ({
                 node: {

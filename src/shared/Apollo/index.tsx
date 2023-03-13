@@ -5,10 +5,21 @@ import {
   ApolloProvider as Apollo,
   createHttpLink,
   useApolloClient,
+  DefaultOptions,
 } from "@apollo/client";
 import { getToken } from "../Auth";
 import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
+const defaultOptions: DefaultOptions = {
+  watchQuery: {
+    fetchPolicy: "no-cache",
+    errorPolicy: "ignore",
+  },
+  query: {
+    fetchPolicy: "no-cache",
+    errorPolicy: "all",
+  },
+};
 const httpLink = createUploadLink({
   uri: "https://abdelwahapbak.pythonanywhere.com/graphql/",
 });
@@ -24,6 +35,7 @@ const authLink = setContext(async (_, { headers }) => {
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
+  defaultOptions: defaultOptions,
 });
 
 export const ApolloProvider: React.FC<TApolloProvider> = ({ children }) => {

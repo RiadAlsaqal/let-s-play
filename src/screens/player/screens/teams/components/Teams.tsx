@@ -7,9 +7,16 @@ import { TeamCard } from "./index";
 import { GET_MY_TEAMS_QUERY } from "../../../queries";
 import { TMyAllTeam } from "../../../types";
 import { Divider } from "react-native-paper";
-import { ScrollView } from "react-native-gesture-handler";
+import { RefreshControl, ScrollView } from "react-native-gesture-handler";
 const TeamsWithoutNavigation: React.FC<TProps> = ({ navigation }) => {
-  const { data, error } = useQuery<TMyAllTeam>(GET_MY_TEAMS_QUERY);
+  const { data, error, refetch } = useQuery<TMyAllTeam>(GET_MY_TEAMS_QUERY);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const refresh = () => {
+    refetch().then(() => {
+      setRefreshing(false);
+    });
+    setRefreshing;
+  };
   return (
     <>
       <Button
@@ -19,7 +26,11 @@ const TeamsWithoutNavigation: React.FC<TProps> = ({ navigation }) => {
       >
         create team
       </Button>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+        }
+      >
         {data?.myAllTeam?.data?.edges.map(
           ({
             node: {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useQuery } from "@src/shared/hooks";
 import { GET_ALL_FRIENDS_QUERY } from "../querys";
@@ -6,11 +6,26 @@ import { PlayerCard } from "../../../components";
 import { AntDesign } from "@expo/vector-icons";
 import { IconButton } from "react-native-paper";
 import { ButtonInfo } from "./index";
+import { RefreshControl } from "react-native-gesture-handler";
 export const FriendsList = () => {
-  const { data } = useQuery<TData>(GET_ALL_FRIENDS_QUERY);
+  const { data, refetch } = useQuery<TData>(GET_ALL_FRIENDS_QUERY);
+  const [refreshing, setRefreshing] = React.useState(false);
 
+  const refresh = () => {
+    refetch().then(() => {
+      setRefreshing(false);
+    });
+    setRefreshing;
+  };
+  useEffect(() => {
+    refetch();
+  });
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+      }
+    >
       {data?.allFriend?.data?.edges?.map(
         ({
           node: {

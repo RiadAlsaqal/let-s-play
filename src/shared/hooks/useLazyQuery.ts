@@ -14,7 +14,10 @@ export function useLazyQuery<TData = any, TVariables = OperationVariables>(
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
   options?: LazyQueryHookOptions<TData, TVariables>
 ): LazyQueryResultTuple<TData, TVariables> {
-  const result = useApolloLazyQuery(query, options);
+  const result = useApolloLazyQuery(query, {
+    ...options,
+    fetchPolicy: "no-cache",
+  });
   const { handleLoading } = useHandleLoading();
 
   if (result[1].loading) {

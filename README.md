@@ -1,8 +1,8 @@
 # react native project
 
-asdsadasd
+Rining is a mobile app built with react native (expo) for people who love doing sports events like soccer, basketball and tennise, it's support them to make a reservation on clubs and cummenication with each others.
 
-## Getting started
+##  Getting started
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
